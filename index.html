@@ -136,7 +136,15 @@
       display: flex;
       align-items: center;
       gap: 7px;
+      cursor: pointer;
+      padding: 4px 10px;
+      border-radius: 20px;
+      transition: background 0.18s, color 0.18s;
+      user-select: none;
     }
+    .legend-item:hover { background: rgba(255,255,255,0.12); color: #fff; }
+    .legend-item.active { background: #c8102e; color: #fff; }
+    .legend-item.dimmed { opacity: 0.4; }
 
     /* ── Layout ── */
     .container {
@@ -708,13 +716,13 @@
 <!-- INTERACTIVE MAP -->
 <div id="map"></div>
 <div class="map-legend">
-  <div class="legend-item">🏠 Base camp</div>
-  <div class="legend-item">📍 Explore</div>
-  <div class="legend-item">🍺 Drinks</div>
-  <div class="legend-item">🎯 Activities</div>
-  <div class="legend-item">🎉 Nightlife</div>
-  <div class="legend-item">🎭 Culture</div>
-  <div class="legend-item">🚋 Tram stop</div>
+  <div class="legend-item" data-category="home">🏠 Base camp</div>
+  <div class="legend-item" data-category="explore">📍 Explore</div>
+  <div class="legend-item" data-category="drinks">🍺 Drinks</div>
+  <div class="legend-item" data-category="activities">🎯 Activities</div>
+  <div class="legend-item" data-category="nightlife">🎉 Nightlife</div>
+  <div class="legend-item" data-category="culture">🎭 Culture</div>
+  <div class="legend-item" data-category="tram">🚋 Tram stop</div>
 </div>
 
 <div class="container">
@@ -1474,78 +1482,128 @@
 
   var locs = [
     // Base
-    { lat: 50.0607, lng: 19.9362, icon: homeIcon,
+    { lat: 50.0607, lng: 19.9362, icon: homeIcon, category: 'home',
       name: 'Draggo House', note: '6 Gołębia, Old Town — where we\'re staying' },
 
     // Explore
-    { lat: 50.0617, lng: 19.9372, icon: exploreIcon,
+    { lat: 50.0617, lng: 19.9372, icon: exploreIcon, category: 'explore',
       name: 'Rynek Główny', note: 'Main Market Square — hub of Old Town' },
-    { lat: 50.0541, lng: 19.9352, icon: exploreIcon,
+    { lat: 50.0541, lng: 19.9352, icon: exploreIcon, category: 'explore',
       name: 'Wawel Castle', note: 'Royal castle and cathedral, 10 min walk south' },
-    { lat: 50.0665, lng: 19.9389, icon: exploreIcon,
+    { lat: 50.0665, lng: 19.9389, icon: exploreIcon, category: 'explore',
       name: 'Florian Gate & Barbican', note: 'Medieval fortifications, north end of Old Town' },
-    { lat: 49.9832, lng: 20.0549, icon: exploreIcon,
+    { lat: 49.9832, lng: 20.0549, icon: exploreIcon, category: 'explore',
       name: 'Wieliczka Salt Mine', note: '30 min by taxi — UNESCO site, underground world carved from salt' },
-    { lat: 50.0696, lng: 20.0431, icon: exploreIcon,
+    { lat: 50.0696, lng: 20.0431, icon: exploreIcon, category: 'explore',
       name: 'Nowa Huta', note: '30 min by tram — intact Soviet-era planned city' },
 
     // Drinks & Food
-    { lat: 50.0612, lng: 19.9384, icon: drinksIcon,
+    { lat: 50.0612, lng: 19.9384, icon: drinksIcon, category: 'drinks',
       name: 'ul. Floriańska', note: 'Main bar street through Old Town' },
-    { lat: 50.0608, lng: 19.9348, icon: drinksIcon,
+    { lat: 50.0608, lng: 19.9348, icon: drinksIcon, category: 'drinks',
       name: 'Pijalnia Wódki i Piwa', note: 'ul. Szewska 7 — shots from 80p. Don\'t miss it.' },
-    { lat: 50.0608, lng: 19.9350, icon: drinksIcon,
+    { lat: 50.0608, lng: 19.9350, icon: drinksIcon, category: 'drinks',
       name: 'Vodka Tasting (Old Town)', note: 'Guided Polish vodka tasting — 5–6 varieties with commentary' },
-    { lat: 50.0512, lng: 19.9448, icon: drinksIcon,
+    { lat: 50.0512, lng: 19.9448, icon: drinksIcon, category: 'drinks',
       name: 'Alchemia', note: 'ul. Estery 5, Kazimierz — candlelit cellar bar' },
-    { lat: 50.0499, lng: 19.9440, icon: drinksIcon,
+    { lat: 50.0499, lng: 19.9440, icon: drinksIcon, category: 'drinks',
       name: 'Propaganda', note: 'ul. Miodowa 20, Kazimierz — cheap and reliable' },
-    { lat: 50.0510, lng: 19.9450, icon: drinksIcon,
+    { lat: 50.0510, lng: 19.9450, icon: drinksIcon, category: 'drinks',
       name: 'Starka', note: 'Kazimierz — classic Polish sit-down dinner, Saturday night start' },
-    { lat: 50.0518, lng: 19.9452, icon: drinksIcon,
+    { lat: 50.0518, lng: 19.9452, icon: drinksIcon, category: 'drinks',
       name: 'Mleczarnia', note: 'Kazimierz — cosy bar, low music, good beer' },
-    { lat: 50.0613, lng: 19.9376, icon: drinksIcon,
+    { lat: 50.0613, lng: 19.9376, icon: drinksIcon, category: 'drinks',
       name: 'Bar Mleczny', note: 'Old Town — canteen-style Polish food, cheap and filling' },
 
     // Activities
-    { lat: 50.0617, lng: 19.9360, icon: activityIcon,
+    { lat: 50.0617, lng: 19.9360, icon: activityIcon, category: 'activities',
       name: 'Krakow Underground Museum', note: 'Beneath Rynek Główny — medieval excavations' },
-    { lat: 50.0720, lng: 19.9170, icon: activityIcon,
+    { lat: 50.0720, lng: 19.9170, icon: activityIcon, category: 'activities',
       name: 'Strzelnica Łobzów (Shooting)', note: '~1.5km northwest of Old Town — our pick for Thursday' },
-    { lat: 50.0750, lng: 19.8900, icon: activityIcon,
+    { lat: 50.0750, lng: 19.8900, icon: activityIcon, category: 'activities',
       name: 'Combat Zone Kraków (Shooting)', note: '~4km from Old Town — more weapon variety, transport often included' },
-    { lat: 50.0380, lng: 19.9580, icon: activityIcon,
+    { lat: 50.0380, lng: 19.9580, icon: activityIcon, category: 'activities',
       name: 'Go Karting', note: '~5km south — indoor karting circuit, 15 min taxi' },
-    { lat: 50.0505, lng: 19.9445, icon: activityIcon,
+    { lat: 50.0505, lng: 19.9445, icon: activityIcon, category: 'activities',
       name: 'Female Oil Wrestling (Kazimierz)', note: 'Private venue in Kazimierz — book via Stag Krakow or The Stag Company' },
 
     // Culture
-    { lat: 50.0476, lng: 19.9456, icon: cultureIcon,
+    { lat: 50.0476, lng: 19.9456, icon: cultureIcon, category: 'culture',
       name: 'Schindler\'s Factory / MOCAK', note: 'ul. Lipowa 4, Podgórze — 20 min walk across the river' },
 
     // Nightlife
-    { lat: 50.0607, lng: 19.9360, icon: nightIcon,
+    { lat: 50.0607, lng: 19.9360, icon: nightIcon, category: 'nightlife',
       name: 'Shine Club', note: 'Old Town — good for later when you want it louder' },
-    { lat: 50.0580, lng: 19.9340, icon: nightIcon,
+    { lat: 50.0580, lng: 19.9340, icon: nightIcon, category: 'nightlife',
       name: 'Prozak 2.0', note: 'Plac Dominikański 6 — underground techno, right in Old Town' },
 
     // Tram stops
-    { lat: 50.0655, lng: 19.9340, icon: tramIcon,
+    { lat: 50.0655, lng: 19.9340, icon: tramIcon, category: 'tram',
       name: 'Tram: Teatr Słowackiego', note: '~500m north of Draggo. Multiple lines toward Kraków Główny (main station & airport train).' },
-    { lat: 50.0533, lng: 19.9380, icon: tramIcon,
+    { lat: 50.0533, lng: 19.9380, icon: tramIcon, category: 'tram',
       name: 'Tram: Wawel', note: '~700m south of Draggo. Lines toward Podgórze — useful for Schindler\'s Factory area.' },
-    { lat: 50.0605, lng: 19.9245, icon: tramIcon,
+    { lat: 50.0605, lng: 19.9245, icon: tramIcon, category: 'tram',
       name: 'Tram: Teatr Bagatela', note: '~400m west of Draggo on ul. Karmelicka. Useful for Kazimierz and western Kraków.' }
   ];
 
+  var markers = [];
   locs.forEach(function (loc) {
-    L.marker([loc.lat, loc.lng], { icon: loc.icon })
+    var m = L.marker([loc.lat, loc.lng], { icon: loc.icon })
       .addTo(map)
       .bindPopup(
         '<strong style="font-size:13px">' + loc.name + '</strong>' +
         '<br><span style="color:#666;font-size:12px">' + loc.note + '</span>' +
         '<br>' + glink(loc.lat, loc.lng)
       );
+    markers.push({ marker: m, category: loc.category });
+  });
+
+  // ── Legend filter ──
+  var activeCategory = null;
+  var legendItems = document.querySelectorAll('.legend-item[data-category]');
+
+  legendItems.forEach(function (item) {
+    item.addEventListener('click', function () {
+      var cat = this.getAttribute('data-category');
+
+      if (activeCategory === cat) {
+        // Deselect — reset everything
+        activeCategory = null;
+        legendItems.forEach(function (el) {
+          el.classList.remove('active', 'dimmed');
+        });
+        markers.forEach(function (m) { m.marker.setOpacity(1); });
+        map.closePopup();
+        map.setView([50.058, 19.936], 14);
+      } else {
+        // Activate this category
+        activeCategory = cat;
+        legendItems.forEach(function (el) {
+          var isActive = el.getAttribute('data-category') === cat;
+          el.classList.toggle('active', isActive);
+          el.classList.toggle('dimmed', !isActive);
+        });
+
+        var matching = [];
+        markers.forEach(function (m) {
+          if (m.category === cat) {
+            m.marker.setOpacity(1);
+            matching.push(m.marker);
+          } else {
+            m.marker.setOpacity(0.12);
+          }
+        });
+
+        map.closePopup();
+        if (matching.length === 1) {
+          map.setView(matching[0].getLatLng(), 16);
+          matching[0].openPopup();
+        } else if (matching.length > 1) {
+          var group = L.featureGroup(matching);
+          map.fitBounds(group.getBounds(), { padding: [60, 60], maxZoom: 15 });
+        }
+      }
+    });
   });
 </script>
 
