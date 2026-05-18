@@ -1,0 +1,1555 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Josh's Stag — Kraków '26</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #f7f6f3;
+      --surface: #ffffff;
+      --text: #111111;
+      --muted: #777777;
+      --accent: #c8102e;
+      --border: #e2e1dd;
+      --radius: 8px;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    /* ── Hero ── */
+    .hero {
+      position: relative;
+      background:
+        linear-gradient(to bottom, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.40) 100%),
+        url('Krakow banner.jpg') center/cover no-repeat;
+      color: #fff;
+      text-align: center;
+      padding: 80px 24px 64px;
+    }
+
+    .hero-content {
+      position: relative;
+    }
+
+    .hero-pill {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.75);
+      border: 1px solid rgba(255,255,255,0.3);
+      padding: 4px 14px;
+      border-radius: 100px;
+      margin-bottom: 28px;
+    }
+
+    .hero h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(3rem, 9vw, 6.5rem);
+      line-height: 1;
+      margin-bottom: 12px;
+    }
+
+    .hero-sub {
+      font-size: 0.95rem;
+      color: rgba(255,255,255,0.5);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 52px;
+    }
+
+    /* ── Countdown ── */
+    .countdown {
+      display: inline-flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .cd-block {
+      background: rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.18);
+      border-radius: var(--radius);
+      padding: 20px 26px 16px;
+      min-width: 94px;
+      text-align: center;
+      backdrop-filter: blur(4px);
+    }
+
+    .cd-num {
+      font-size: 2.6rem;
+      font-weight: 700;
+      line-height: 1;
+      display: block;
+      font-variant-numeric: tabular-nums;
+      letter-spacing: -0.02em;
+    }
+
+    .cd-label {
+      font-size: 10px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.4);
+      display: block;
+      margin-top: 8px;
+    }
+
+    .cd-gone {
+      font-family: 'Playfair Display', serif;
+      font-size: 2rem;
+      color: rgba(255,255,255,0.7);
+      padding: 20px 0;
+    }
+
+    /* ── Interactive map (full-width below hero) ── */
+    #map {
+      height: 480px;
+      width: 100%;
+    }
+
+    .map-legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      padding: 14px 28px;
+      background: #1a1a1a;
+      font-size: 12px;
+      color: #bbb;
+      align-items: center;
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+    }
+
+    /* ── Layout ── */
+    .container {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    section {
+      padding: 64px 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    section:last-of-type { border-bottom: none; }
+
+    .section-label {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 10px;
+    }
+
+    h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 2rem;
+      margin-bottom: 32px;
+      line-height: 1.1;
+    }
+
+    /* ── Flights — Ryanair themed ── */
+    .flights-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    @media (max-width: 580px) {
+      .flights-grid { grid-template-columns: 1fr; }
+    }
+
+    .flight-card {
+      background: #003580;
+      border: none;
+      border-radius: var(--radius);
+      padding: 28px;
+      color: white;
+    }
+
+    .flight-type {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.5);
+      margin-bottom: 14px;
+    }
+
+    .flight-route {
+      font-size: 1.9rem;
+      font-weight: 700;
+      letter-spacing: 0.01em;
+      margin-bottom: 18px;
+      line-height: 1;
+      color: #F7BD00;
+    }
+
+    .flight-arrow { color: rgba(255,255,255,0.4); margin: 0 6px; font-weight: 300; }
+
+    .flight-info {
+      font-size: 0.875rem;
+      color: rgba(255,255,255,0.65);
+      margin-bottom: 5px;
+    }
+
+    .flight-info strong { color: white; font-weight: 500; }
+
+    .flight-badge {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 700;
+      background: #F7BD00;
+      color: #003580;
+      padding: 3px 9px;
+      border-radius: 4px;
+      margin-top: 14px;
+      letter-spacing: 0.05em;
+    }
+
+    /* ── Accommodation ── */
+    .accom-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+
+    .accom-street {
+      width: 100%;
+      height: 260px;
+      display: block;
+      object-fit: cover;
+      object-position: center;
+    }
+
+    .ta-link {
+      display: inline-block;
+      font-size: 0.68rem;
+      font-weight: 600;
+      color: #00aa6c;
+      background: #f0fdf4;
+      border: 1px solid #86efac;
+      padding: 1px 6px;
+      border-radius: 4px;
+      margin-left: 4px;
+      text-decoration: none;
+      vertical-align: middle;
+      white-space: nowrap;
+    }
+    .ta-link:hover { background: #dcfce7; }
+
+    .accom-details {
+      padding: 24px 28px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+
+    .accom-card h3 {
+      font-size: 1.2rem;
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+
+    .accom-address {
+      color: var(--muted);
+      font-size: 0.875rem;
+      text-decoration: none;
+      transition: color 0.15s;
+      display: inline-block;
+    }
+
+    .accom-address:hover { color: var(--accent); }
+
+    .accom-dates {
+      text-align: right;
+      font-size: 0.875rem;
+      color: var(--muted);
+      white-space: nowrap;
+    }
+
+    .accom-dates .nights {
+      font-weight: 600;
+      color: var(--text);
+      font-size: 0.95rem;
+      margin-top: 4px;
+    }
+
+    /* ── Agenda ── */
+    .agenda { display: flex; flex-direction: column; gap: 20px; }
+
+    .day-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+
+    .day-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      padding: 14px 24px;
+      border-bottom: 1px solid var(--border);
+      background: #fafaf7;
+    }
+
+    .day-name { font-weight: 600; font-size: 0.9rem; }
+    .day-date { font-size: 0.8rem; color: var(--muted); }
+
+    .event {
+      display: flex;
+      gap: 20px;
+      padding: 20px 24px;
+      border-bottom: 1px solid var(--border);
+      align-items: flex-start;
+    }
+
+    .event:last-child { border-bottom: none; }
+
+    .event-time {
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
+      min-width: 78px;
+      padding-top: 3px;
+      flex-shrink: 0;
+    }
+
+    .event-body { flex: 1; min-width: 0; }
+
+    .event-title {
+      font-size: 0.95rem;
+      font-weight: 600;
+      margin-bottom: 12px;
+    }
+
+    .event-note {
+      font-size: 0.82rem;
+      color: var(--muted);
+      margin-bottom: 12px;
+      line-height: 1.5;
+      background: #fff8e6;
+      border-left: 3px solid #F7BD00;
+      padding: 8px 12px;
+      border-radius: 0 4px 4px 0;
+    }
+
+    .event-options {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 9px;
+    }
+
+    .event-options li {
+      font-size: 0.83rem;
+      color: var(--muted);
+      line-height: 1.5;
+      display: flex;
+      align-items: flex-start;
+      gap: 9px;
+    }
+
+    .opt-icon {
+      flex-shrink: 0;
+      font-size: 1rem;
+      line-height: 1.5;
+      width: 18px;
+      text-align: center;
+    }
+
+    .opt-text { flex: 1; }
+    .opt-text strong { color: var(--text); font-weight: 500; }
+
+    .cost {
+      display: inline-block;
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: #047857;
+      background: #ecfdf5;
+      border: 1px solid #a7f3d0;
+      padding: 1px 6px;
+      border-radius: 4px;
+      margin-left: 4px;
+      white-space: nowrap;
+      vertical-align: middle;
+    }
+
+    .our-pick {
+      display: inline-block;
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: #92400e;
+      background: #fef3c7;
+      border: 1px solid #fcd34d;
+      padding: 1px 6px;
+      border-radius: 4px;
+      margin-left: 4px;
+      vertical-align: middle;
+    }
+
+    /* ── Map badge ── */
+    .map-badge {
+      display: inline-flex; align-items: center; gap: 2px;
+      font-size: 0.72rem; background: #fee2e2; border: 1px solid #fca5a5;
+      border-radius: 4px; padding: 1px 5px; margin-left: 4px;
+      text-decoration: none; vertical-align: middle; color: var(--accent);
+      font-weight: 600; white-space: nowrap;
+    }
+    .map-badge:hover { background: #fecaca; }
+
+    /* ── Zone note (bar-hop zone callout) ── */
+    .zone-note {
+      font-size: 0.78rem; color: #1e40af; background: #eff6ff;
+      border: 1px solid #bfdbfe; border-radius: 4px;
+      padding: 6px 12px; font-weight: 500; margin-bottom: 10px;
+    }
+
+    /* ── Sub-options (e.g. shooting range pick-a-venue) ── */
+    .choose-label {
+      font-size: 0.72rem; color: var(--muted); font-weight: 400;
+    }
+    .sub-options { margin-top: 8px; display: flex; flex-direction: column; gap: 7px; }
+    .sub-opt {
+      font-size: 0.82rem; color: var(--muted);
+      padding: 7px 10px; background: #fafaf7;
+      border-radius: 4px; border-left: 2px solid var(--border); line-height: 1.5;
+    }
+    .sub-opt strong { color: var(--text); font-weight: 500; }
+
+    /* ── OR divider between activity options ── */
+    .or-divider {
+      display: flex; align-items: center; gap: 10px;
+      font-size: 0.72rem; font-weight: 700; letter-spacing: 0.1em;
+      text-transform: uppercase; color: var(--muted); margin: 10px 0;
+    }
+    .or-divider::before, .or-divider::after {
+      content: ''; flex: 1; height: 1px; background: var(--border);
+    }
+
+    /* ── Password screen ── */
+    body.pw-locked { overflow: hidden; }
+
+    #password-screen {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      background:
+        linear-gradient(to bottom, rgba(0,0,0,0.62) 0%, rgba(0,0,0,0.50) 100%),
+        url('Krakow banner.jpg') center/cover no-repeat;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .pw-box {
+      text-align: center;
+      color: #fff;
+      max-width: 360px;
+      width: 100%;
+      padding: 0 28px;
+    }
+
+    .pw-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.8rem, 9vw, 4.5rem);
+      line-height: 1;
+      margin-bottom: 10px;
+    }
+
+    .pw-sub {
+      font-size: 0.8rem;
+      color: rgba(255,255,255,0.5);
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      margin-bottom: 48px;
+    }
+
+    .pw-field-wrap {
+      position: relative;
+      margin-bottom: 12px;
+    }
+
+    .pw-input {
+      width: 100%;
+      padding: 14px 52px 14px 18px;
+      background: rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.22);
+      border-radius: var(--radius);
+      color: #fff;
+      font-size: 1rem;
+      font-family: 'Inter', sans-serif;
+      letter-spacing: 0.04em;
+      outline: none;
+      backdrop-filter: blur(6px);
+      transition: border-color 0.15s;
+    }
+
+    .pw-input::placeholder { color: rgba(255,255,255,0.3); }
+    .pw-input:focus { border-color: rgba(255,255,255,0.55); }
+
+    .pw-toggle {
+      position: absolute;
+      right: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      color: rgba(255,255,255,0.45);
+      cursor: pointer;
+      font-size: 0.75rem;
+      font-family: 'Inter', sans-serif;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      padding: 4px;
+      transition: color 0.15s;
+    }
+
+    .pw-toggle:hover { color: rgba(255,255,255,0.9); }
+
+    .pw-submit {
+      width: 100%;
+      padding: 14px;
+      background: #fff;
+      color: #111;
+      border: none;
+      border-radius: var(--radius);
+      font-size: 0.88rem;
+      font-weight: 700;
+      font-family: 'Inter', sans-serif;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: background 0.15s, transform 0.1s;
+    }
+
+    .pw-submit:hover { background: rgba(255,255,255,0.88); }
+    .pw-submit:active { transform: scale(0.98); }
+
+    .pw-error {
+      font-size: 0.78rem;
+      color: #fca5a5;
+      margin-top: 14px;
+      display: none;
+      letter-spacing: 0.02em;
+    }
+
+    /* ── Start-here anchor badge ── */
+    .start-badge {
+      display: inline-block; font-size: 0.68rem; font-weight: 700;
+      letter-spacing: 0.05em; text-transform: uppercase;
+      color: #6d28d9; background: #f5f3ff; border: 1px solid #c4b5fd;
+      padding: 1px 6px; border-radius: 4px; margin-left: 4px; vertical-align: middle;
+    }
+
+    /* ── "Also in the area" divider label ── */
+    .area-also {
+      font-size: 0.72rem; font-weight: 600; letter-spacing: 0.07em;
+      text-transform: uppercase; color: var(--muted);
+      margin: 12px 0 6px; padding-top: 10px;
+      border-top: 1px solid var(--border);
+    }
+
+    /* ── Food & Drink cards ── */
+    .fd-subsection { margin-bottom: 40px; }
+    .fd-subsection:last-child { margin-bottom: 0; }
+    .fd-subheading {
+      font-size: 0.78rem; font-weight: 700; letter-spacing: 0.12em;
+      text-transform: uppercase; color: var(--muted); margin-bottom: 16px;
+    }
+    .fd-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+    }
+    .fd-grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+    }
+    @media (max-width: 700px) {
+      .fd-grid { grid-template-columns: repeat(2, 1fr); }
+      .fd-grid-3 { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 420px) {
+      .fd-grid, .fd-grid-3 { grid-template-columns: 1fr; }
+    }
+    .fd-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+    .fd-card img {
+      width: 100%; height: 160px;
+      object-fit: cover; display: block;
+    }
+    .fd-card-body { padding: 12px 14px 14px; }
+    .fd-card-body h4 { font-size: 0.92rem; font-weight: 600; margin-bottom: 4px; }
+    .fd-card-body p { font-size: 0.78rem; color: var(--muted); line-height: 1.5; margin-top: 6px; }
+    .fd-type {
+      display: inline-block; font-size: 0.65rem; font-weight: 700;
+      letter-spacing: 0.08em; text-transform: uppercase;
+      color: #92400e; background: #fef3c7; border: 1px solid #fcd34d;
+      padding: 1px 6px; border-radius: 4px; vertical-align: middle;
+    }
+    .fd-type.spirit { color: #5b21b6; background: #f5f3ff; border-color: #c4b5fd; }
+    .fd-type.dish   { color: #065f46; background: #ecfdf5; border-color: #a7f3d0; }
+
+    /* ── Polish phrases ── */
+    .phrase-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 10px;
+    }
+    .phrase-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 12px 14px;
+    }
+    .phrase-polish {
+      font-size: 0.97rem;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 2px;
+    }
+    .phrase-pronun {
+      font-size: 0.73rem;
+      color: var(--muted);
+      font-style: italic;
+      margin-bottom: 6px;
+    }
+    .phrase-english {
+      font-size: 0.8rem;
+      color: var(--accent);
+      font-weight: 500;
+    }
+
+    /* ── Footer ── */
+    footer {
+      text-align: center;
+      padding: 40px 24px;
+      font-size: 0.8rem;
+      color: var(--muted);
+      border-top: 1px solid var(--border);
+    }
+  </style>
+</head>
+<body>
+
+<!-- PASSWORD SCREEN -->
+<div id="password-screen">
+  <div class="pw-box">
+    <h1 class="pw-title">Josh's Stag</h1>
+    <p class="pw-sub">Kraków &middot; September 2026</p>
+    <div class="pw-field-wrap">
+      <input
+        type="password"
+        id="pw-input"
+        class="pw-input"
+        placeholder="Password"
+        autocomplete="off"
+        autocorrect="off"
+        autocapitalize="off"
+        spellcheck="false"
+      />
+      <button type="button" id="pw-toggle" class="pw-toggle">Show</button>
+    </div>
+    <button type="button" id="pw-submit" class="pw-submit">Enter</button>
+    <p id="pw-error" class="pw-error">Wrong password — try again.</p>
+  </div>
+</div>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-content">
+    <div class="hero-pill">Kraków, Poland</div>
+    <h1>Josh's Stag</h1>
+    <p class="hero-sub">16 – 20 September 2026</p>
+    <div class="countdown" id="countdown">
+      <div class="cd-block"><span class="cd-num" id="cd-d">--</span><span class="cd-label">Days</span></div>
+      <div class="cd-block"><span class="cd-num" id="cd-h">--</span><span class="cd-label">Hours</span></div>
+      <div class="cd-block"><span class="cd-num" id="cd-m">--</span><span class="cd-label">Mins</span></div>
+      <div class="cd-block"><span class="cd-num" id="cd-s">--</span><span class="cd-label">Secs</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- INTERACTIVE MAP -->
+<div id="map"></div>
+<div class="map-legend">
+  <div class="legend-item">🏠 Base camp</div>
+  <div class="legend-item">📍 Explore</div>
+  <div class="legend-item">🍺 Drinks</div>
+  <div class="legend-item">🎯 Activities</div>
+  <div class="legend-item">🎉 Nightlife</div>
+  <div class="legend-item">🎭 Culture</div>
+  <div class="legend-item">🚋 Tram stop</div>
+</div>
+
+<div class="container">
+
+  <!-- FLIGHTS -->
+  <section>
+    <p class="section-label">Getting There</p>
+    <h2>Flights</h2>
+    <div class="flights-grid">
+      <div class="flight-card">
+        <div class="flight-type">Outbound</div>
+        <div class="flight-route">BOH <span class="flight-arrow">→</span> KRK</div>
+        <div class="flight-info"><strong>Wed 16 Sep</strong></div>
+        <div class="flight-info">Departs <strong>09:25</strong> · Arrives <strong>12:55</strong></div>
+        <div class="flight-info">Bournemouth → Kraków John Paul II</div>
+        <div class="flight-badge">Ryanair FR5523</div>
+      </div>
+      <div class="flight-card">
+        <div class="flight-type">Return</div>
+        <div class="flight-route">KRK <span class="flight-arrow">→</span> BOH</div>
+        <div class="flight-info"><strong>Sun 20 Sep</strong></div>
+        <div class="flight-info">Departs <strong>06:10</strong> · Arrives <strong>07:50</strong></div>
+        <div class="flight-info">Kraków John Paul II → Bournemouth</div>
+        <div class="flight-badge">Ryanair FR5724</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ACCOMMODATION -->
+  <section>
+    <p class="section-label">Where We're Staying</p>
+    <h2>Base Camp</h2>
+    <div class="accom-card">
+      <img
+        class="accom-street"
+        src="Draggo House.jpg"
+        alt="Draggo House, 6 Gołębia, Kraków Old Town"
+      />
+      <div class="accom-details">
+        <div>
+          <h3>Draggo House</h3>
+          <a class="accom-address"
+             href="https://www.google.com/maps/search/?api=1&query=Draggo+House+6+Go%C5%82%C4%99bia+Krak%C3%B3w+Poland"
+             target="_blank" rel="noopener">
+            6 Gołębia, Old Town, 31-007 Kraków, Poland ↗
+          </a>
+        </div>
+        <div class="accom-dates">
+          <div>Check-in: Wed 16 Sep</div>
+          <div>Check-out: Sun 20 Sep</div>
+          <div class="nights">4 nights</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SCHEDULE -->
+  <section>
+    <p class="section-label">Schedule</p>
+    <h2>Things We Can Do</h2>
+    <div class="agenda">
+
+      <!-- WEDNESDAY -->
+      <div class="day-card">
+        <div class="day-header">
+          <span class="day-name">Wednesday</span>
+          <span class="day-date">16 September</span>
+        </div>
+
+        <!-- Wed Arrival -->
+        <div class="event">
+          <div class="event-time">Arrival</div>
+          <div class="event-body">
+
+            <ul class="event-options">
+              <li>
+                <span class="opt-icon">🚕</span>
+                <span class="opt-text">
+                  <strong>Bolt / Uber</strong>
+                  <span class="our-pick">Recommended</span>
+                  <a class="map-badge" href="https://maps.google.com/?q=50.0777,19.7848" target="_blank" rel="noopener">📍 Airport</a>
+                  — Open the app at arrivals and order to Draggo House. 25–30 min, no faff. Best option for a group with bags.
+                  <span class="cost">~35–50 PLN / £7–10</span>
+                </span>
+              </li>
+              <li>
+                <span class="opt-icon">🚌</span>
+                <span class="opt-text">
+                  <strong>Bus 208 or 902</strong>
+                  — From the airport bus stop to the city centre. ~50 min. Cheap but slower and you'll need to walk the last bit with luggage.
+                  <span class="cost">~6 PLN / £1.20</span>
+                </span>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Wed Day -->
+        <div class="event">
+          <div class="event-time">Day</div>
+          <div class="event-body">
+
+            <ul class="event-options">
+              <li>
+                <span class="opt-icon">🏛️</span>
+                <span class="opt-text">
+                  <strong>Rynek Główny</strong>
+                  <a class="ta-link" href="https://www.tripadvisor.com/Attraction_Review-g274772-d276740-Reviews-Krakow_s_Rynek_Glowny_Central_Square-Krakow_Lesser_Poland_Province_Southern_Poland.html" target="_blank" rel="noopener">TripAdvisor ↗</a>
+                  <a class="map-badge" href="https://maps.google.com/?q=50.0617,19.9372" target="_blank" rel="noopener">📍 Map</a>
+                  — 2 min walk. Main Market Square — grab a beer, catch the bugle call from St. Mary's on the hour. Free.
+                </span>
+              </li>
+              <li>
+                <span class="opt-icon">🏰</span>
+                <span class="opt-text">
+                  <strong>Wawel Castle & Hill</strong>
+                  <a class="ta-link" href="https://www.tripadvisor.com/Attraction_Review-g274772-d276748-Reviews-Wawel_Royal_Castle-Krakow_Lesser_Poland_Province_Southern_Poland.html" target="_blank" rel="noopener">TripAdvisor ↗</a>
+                  <a class="map-badge" href="https://maps.google.com/?q=50.0541,19.9352" target="_blank" rel="noopener">📍 Map</a>
+                  — 10 min walk south. Castle, royal cathedral, dragon's cave at the base.
+                  <span class="cost">~40 PLN / £8pp</span>
+                </span>
+              </li>
+              <li>
+                <span class="opt-icon">🧱</span>
+                <span class="opt-text">
+                  <strong>Florian Gate & Barbican</strong>
+                  <a class="ta-link" href="https://www.tripadvisor.com/Search?q=Florian+Gate+Barbican+Krakow&geo=274772" target="_blank" rel="noopener">TripAdvisor ↗</a>
+                  <a class="map-badge" href="https://maps.google.com/?q=50.0665,19.9389" target="_blank" rel="noopener">📍 Map</a>
+                  — 8 min walk north. Medieval fortifications. Quick to walk and impressive up close. Free.
+                </span>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Wed Night -->
+        <div class="event">
+          <div class="event-time">Night</div>
+          <div class="event-body">
+
+            <div class="zone-note">📍 Head to Old Town — everything is within 5 min walk of Draggo. Start at Pijalnia, then the night takes care of itself.</div>
+            <ul class="event-options">
+              <li>
+                <span class="opt-icon">🍻</span>
+                <span class="opt-text">
+                  <strong>Pijalnia Wódki i Piwa</strong>
+                  <span class="start-badge">Start here</span>
+                  <a class="ta-link" href="https://www.tripadvisor.com/Search?q=Pijalnia+Wodki+i+Piwa+Krakow&geo=274772" target="_blank" rel="noopener">TripAdvisor ↗</a>
+                  <a class="map-badge" href="https://maps.google.com/?q=50.0608,19.9348" target="_blank" rel="noopener">📍 Map</a>
+                  — 4 min walk. The first stop on every great Kraków night. Shots and beers for next to nothing.
+                  <span class="cost">~4 PLN / 80p a shot</span>
+                </span>
+              </li>
+            </ul>
+            <div class="area-also">Also in the area</div>
+            <ul class="event-options">
+              <li>
+                <span class="opt-icon">🥃</span>
+                <span class="opt-text">
+                  <strong>Vodka Tasting</strong>
+                  <a class="ta-link" href="https://www.tripadvisor.com/Search?q=vodka+tasting+Krakow&geo=274772" target="_blank" rel="noopener">TripAdvisor ↗</a>
+                  <a class="map-badge" href="https://maps.google.com/?q=50.0608,19.9350" target="_blank" rel="noopener">📍 Map</a>
+                  — 4 min walk. Guided Polish vodka tasting — 5–6 varieties with commentary.
+                  <span class="cost">~50–70 PLN / £10–14pp</span>
+                </span>
+              </li>
+              <li>
+                <span class="opt-icon">🍺</span>
+                <span class="opt-text">
+                  <strong>ul. Floriańska</strong>
+                  <a class="ta-link" href="https://www.tripadvisor.com/Search?q=Florianska+Street+bars+Krakow&geo=274772" target="_blank" rel="noopener">TripAdvisor ↗</a>
+                  <a class="map-badge" href="https://maps.google.com/?q=50.0625,19.9384" target="_blank" rel="noopener">📍 Map</a>
+                  — 3 min walk. Main bar street — walk it and see what takes your fancy.
+                </span>
+              </li>
+              <li>
+                <span class="opt-icon">🌃</span>
+                <span class="opt-text">
+                  <strong>Shine Club</strong>
+                  <a class="ta-link" href="https://www.tripadvisor.com/Search?q=Shine+Club+Krakow&geo=274772" target="_blank" rel="noopener">TripAdvisor ↗</a>
+                  <a class="map-badge" href="https://maps.google.com/?q=50.0607,19.9360" target="_blank" rel="noopener">📍 Map</a>
+                  — 5 min walk. Good for later when you want it louder.
+                  <span class="cost">~20 PLN / £4 entry</span>
+                </span>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- THURSDAY -->
+      <div class="day-card">
+        <div class="day-header">
+          <span class="day-name">Thursday</span>
+          <span class="day-date">17 September</span>
+        </div>
+
+        <!-- Thu Day -->
+        <div class="event">
+          <div class="event-time">Day</div>
+          <div class="event-body">
+
+            <ul class="event-options">
+              <li>
+                <span class="opt-icon">🔫</span>
+                <span class="opt-text">
+                  <strong>Shooting Range</strong>
+                  <span class="choose-label">— pick a venue</span>
+                  <div class="sub-options">
+                    <div class="sub-opt">
+                      <strong>Strzelnica Łobzów</strong>
+                      <span class="our-pick">Our pick</span>
+                      <a class="map-badge" href="https://maps.google.com/?q=50.0720,19.9170" target="_blank" rel="noopener">📍 Map</a>
+                      · 1.5km NW · 10 min taxi · Handguns, rifles, shotguns. Book a group package 24 hrs ahead.
+                      <span class="cost">~150–200 PLN / £30–40pp</span>
+                    </div>
+                    <div class="sub-opt">
+                      <strong>Combat Zone Kraków</strong>
+                      <a class="map-badge" href="https://maps.google.com/?q=50.0750,19.8900" target="_blank" rel="noopener">📍 Map</a>
+                      · 4km · 15 min taxi (transport often included via stag company) · More weapon variety.
+                      <span class="cost">~170–220 PLN / £34–44pp</span>
+                    </div>
+                  </div>
+                </span>
+              </li>
+            </ul>
+            <div class="or-divider">or</div>
+            <ul class="event-options">
+              <li>
+                <span class="opt-icon">🏎️</span>
+                <span class="opt-text">
+                  <strong>Go Karting</strong>
+                  <a class="ta-link" href="https://www.tripadvisor.com/Search?q=karting+Krakow&geo=274772" target="_blank" rel="noopener">TripAdvisor ↗</a>
+                  <a class="map-badge" href="https://maps.google.com/?q=50.0380,19.9580" target="_blank" rel="noopener">📍 Map</a>
+                  — 5km south, 15 min taxi. Indoor karting circuit. Book a group session — most tracks offer timed races with a leaderboard.
+                  <span class="cost">~80–120 PLN / £16–24pp</span>
+                </span>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Thu Night -->
+        <div class="event">
+          <div class="event-time">Night</div>
+          <div class="event-body">
+            <div class="zone-note">📍 Head to Kazimierz — 15 min walk or 5 min taxi from Draggo. Start with the oil wrestling, then bar hop from Alchemia.</div>
+            <ul class="event-options">
+              <li>
+                <span class="opt-icon">💋</span>
+                <span class="opt-text">
+                  <strong>Female Oil Wrestling</strong>
+                  <span class="start-badge">Start here</span>
+                  <a class="map-badge" href="https://maps.google.com/?q=50.0505,19.9445" target="_blank" rel="noopener">📍 Map</a>
+                  — Book through a Kraków stag company (e.g. Stag Krakow, The Stag Company). Private venue in Kazimierz — transport and entry sorted for you.
+                  <span class="cost">~£20–30pp</span>
+                </span>
+              </li>
+            </ul>
+            <div class="area-also">Also in the area</div>
+            <ul class="event-options">
+              <li>
+                <span class="opt-icon">🕯️</span>
+                <span class="opt-text">
+                  <strong>Alchemia</strong>
+                  <a class="ta-link" href="https://www.tripadvisor.com/Search?q=Alchemia+bar+Krakow&geo=274772" target="_blank" rel="noopener">TripAdvisor ↗</a>
+                  <a class="map-badge" href="https://maps.google.com/?q=50.0512,19.9448" target="_blank" rel="noopener">📍 Map</a>
+                  — Candlelit cellar bar. The iconic Kazimierz spot — great atmosphere, cold beer.
+                  <span class="cost">~12 PLN / £2.50 a beer</span>
+                </span>
+              </li>
+              <li>
+                <span class="opt-icon">☭</span>
+                <span class="opt-text">
+                  <strong>Propaganda</strong>
+                  <a class="ta-link" href="https://www.tripadvisor.com/Search?q=Propaganda+bar+Krakow&geo=274772" target="_blank" rel="noopener">TripAdvisor ↗</a>
+                  <a class="map-badge" href="https://maps.google.com/?q=50.0499,19.9440" target="_blank" rel="noopener">📍 Map</a>
+                  — Communist-themed bar two minutes from Alchemia. Cheap drinks, gets lively by 10pm.
+                  <span class="cost">~8–12 PLN / £1.60–2.50 a beer</span>
+                </span>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- FRIDAY -->
+      <div class="day-card">
+        <div class="day-header">
+          <span class="day-name">Friday</span>
+          <span class="day-date">18 September</span>
+        </div>
+
+        <!-- Fri Day -->
+        <div class="event">
+          <div class="event-time">Day</div>
+          <div class="event-body">
+
+            <ul class="event-options">
+              <li>
+                <span class="opt-icon">⛏️</span>
+                <span class="opt-text">
+                  <strong>Krakow Underground Museum</strong>
+                  <a class="ta-link" href="https://www.tripadvisor.com/Search?q=Krakow+Underground+Museum&geo=274772" target="_blank" rel="noopener">TripAdvisor ↗</a>
+                  <a class="map-badge" href="https://maps.google.com/?q=50.0614,19.9373" target="_blank" rel="noopener">📍 Map</a>
+                  — 2 min walk. Excavated medieval market streets beneath Rynek. Good quick culture fix before the big night.
+                  <span class="cost">~25 PLN / £5pp</span>
+                </span>
+              </li>
+              <li>
+                <span class="opt-icon">🏭</span>
+                <span class="opt-text">
+                  <strong>Schindler's Factory</strong>
+                  <a class="ta-link" href="https://www.tripadvisor.com/Attraction_Review-g274772-d647063-Reviews-Fabryka_Emalia_Oskara_Schindlera-Krakow_Lesser_Poland_Province_Southern_Poland.html" target="_blank" rel="noopener">TripAdvisor ↗</a>
+                  <a class="map-badge" href="https://maps.google.com/?q=50.0476,19.9456" target="_blank" rel="noopener">📍 Map</a>
+                  — 20 min walk / 10 min taxi. Best WWII museum in Poland. Genuinely moving.
+                  <span class="cost">~25 PLN / £5pp</span>
+                </span>
+              </li>
+              <li>
+                <span class="opt-icon">🎨</span>
+                <span class="opt-text">
+                  <strong>MOCAK</strong>
+                  <a class="ta-link" href="https://www.tripadvisor.com/Search?q=MOCAK+Museum+Contemporary+Art+Krakow&geo=274772" target="_blank" rel="noopener">TripAdvisor ↗</a>
+                  <a class="map-badge" href="https://maps.google.com/?q=50.0476,19.9460" target="_blank" rel="noopener">📍 Map</a>
+                  — 20 min walk / 10 min taxi (next to Schindler's). Modern art — lighter option if the war museum is heavy.
+                  <span class="cost">~15 PLN / £3pp</span>
+                </span>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Fri Night -->
+        <div class="event">
+          <div class="event-time">Night</div>
+          <div class="event-body">
+
+            <div class="zone-note">📍 Aaron is confirming the venue — pre-drink in Old Town first, then head out when the destination is locked in.</div>
+            <ul class="event-options">
+              <li>
+                <span class="opt-icon">🎉</span>
+                <span class="opt-text">
+                  <strong>To Be Confirmed</strong>
+                  <span class="start-badge">Main destination</span>
+                </span>
+              </li>
+            </ul>
+            <div class="area-also">Backup — if plans change</div>
+            <ul class="event-options">
+              <li>
+                <span class="opt-icon">🎧</span>
+                <span class="opt-text">
+                  <strong>Prozak 2.0</strong>
+                  <a class="ta-link" href="https://www.tripadvisor.com/Search?q=Prozak+2.0+Krakow&geo=274772" target="_blank" rel="noopener">TripAdvisor ↗</a>
+                  <a class="map-badge" href="https://maps.google.com/?q=50.0580,19.9340" target="_blank" rel="noopener">📍 Map</a>
+                  — 5 min walk from Draggo. Underground techno and house, goes until 6am.
+                  <span class="cost">~20–40 PLN / £4–8 entry</span>
+                </span>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- SATURDAY -->
+      <div class="day-card">
+        <div class="day-header">
+          <span class="day-name">Saturday</span>
+          <span class="day-date">19 September</span>
+        </div>
+
+        <!-- Sat Day -->
+        <div class="event">
+          <div class="event-time">Day</div>
+          <div class="event-body">
+
+            <ul class="event-options">
+              <li>
+                <span class="opt-icon">🧂</span>
+                <span class="opt-text">
+                  <strong>Wieliczka Salt Mine</strong>
+                  <a class="ta-link" href="https://www.tripadvisor.com/Search?q=Wieliczka+Salt+Mine&geo=274772" target="_blank" rel="noopener">TripAdvisor ↗</a>
+                  <a class="map-badge" href="https://maps.google.com/?q=49.9832,20.0549" target="_blank" rel="noopener">📍 Map</a>
+                  — 30 min by taxi. UNESCO site. Underground world carved from salt over 700 years, including a cathedral. Book online.
+                  <span class="cost">~99 PLN / £20pp</span>
+                </span>
+              </li>
+              <li>
+                <span class="opt-icon">🏰</span>
+                <span class="opt-text">
+                  <strong>Wawel Castle full tour</strong>
+                  <a class="ta-link" href="https://www.tripadvisor.com/Attraction_Review-g274772-d276748-Reviews-Wawel_Royal_Castle-Krakow_Lesser_Poland_Province_Southern_Poland.html" target="_blank" rel="noopener">TripAdvisor ↗</a>
+                  <a class="map-badge" href="https://maps.google.com/?q=50.0541,19.9352" target="_blank" rel="noopener">📍 Map</a>
+                  — 10 min walk. Staterooms, royal treasury, and armoury. Better with a guide.
+                  <span class="cost">~40–65 PLN / £8–13pp</span>
+                </span>
+              </li>
+              <li>
+                <span class="opt-icon">🏗️</span>
+                <span class="opt-text">
+                  <strong>Nowa Huta</strong>
+                  <a class="ta-link" href="https://www.tripadvisor.com/Search?q=Nowa+Huta+Krakow&geo=274772" target="_blank" rel="noopener">TripAdvisor ↗</a>
+                  <a class="map-badge" href="https://maps.google.com/?q=50.0696,20.0431" target="_blank" rel="noopener">📍 Map</a>
+                  — 30 min by tram. Intact Soviet-era planned city. Completely different from Old Town, genuinely interesting. Free.
+                </span>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Sat Night -->
+        <div class="event">
+          <div class="event-time">Night</div>
+          <div class="event-body">
+            <div class="zone-note">📍 Head to Kazimierz for dinner — 15 min walk or 5 min taxi. Last night, 6am flight Sunday.</div>
+            <ul class="event-options">
+              <li>
+                <span class="opt-icon">🍽️</span>
+                <span class="opt-text">
+                  <strong>Starka</strong>
+                  <span class="start-badge">Start here</span>
+                  <a class="ta-link" href="https://www.tripadvisor.com/Search?q=Starka+restaurant+Krakow&geo=274772" target="_blank" rel="noopener">TripAdvisor ↗</a>
+                  <a class="map-badge" href="https://maps.google.com/?q=50.0510,19.9450" target="_blank" rel="noopener">📍 Map</a>
+                  — 15 min walk / 5 min taxi. Classic Polish sit-down dinner. Good way to mark the end of the trip properly.
+                  <span class="cost">~60–80 PLN / £12–16pp</span>
+                </span>
+              </li>
+            </ul>
+            <div class="area-also">Also in the area</div>
+            <ul class="event-options">
+              <li>
+                <span class="opt-icon">🛋️</span>
+                <span class="opt-text">
+                  <strong>Mleczarnia</strong>
+                  <a class="ta-link" href="https://www.tripadvisor.com/Search?q=Mleczarnia+bar+Krakow&geo=274772" target="_blank" rel="noopener">TripAdvisor ↗</a>
+                  <a class="map-badge" href="https://maps.google.com/?q=50.0518,19.9452" target="_blank" rel="noopener">📍 Map</a>
+                  — Two minutes from Starka. Cosy bar, low music, good beer. Ideal wind-down spot.
+                  <span class="cost">~12–15 PLN / £2.50–3 a beer</span>
+                </span>
+              </li>
+              <li>
+                <span class="opt-icon">🥣</span>
+                <span class="opt-text">
+                  <strong>Bar Mleczny</strong>
+                  <a class="ta-link" href="https://www.tripadvisor.com/Search?q=Bar+Mleczny+Krakow&geo=274772" target="_blank" rel="noopener">TripAdvisor ↗</a>
+                  <a class="map-badge" href="https://maps.google.com/?q=50.0613,19.9376" target="_blank" rel="noopener">📍 Map</a>
+                  — Old Town, 5 min walk from Draggo. Canteen-style Polish food. Cheap, filling, exactly what's needed after a big week.
+                  <span class="cost">~20–30 PLN / £4–6pp</span>
+                </span>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- SUNDAY -->
+      <div class="day-card">
+        <div class="day-header">
+          <span class="day-name">Sunday</span>
+          <span class="day-date">20 September</span>
+        </div>
+        <div class="event">
+          <div class="event-time">Morning</div>
+          <div class="event-body">
+
+            <div class="event-note">
+              ⏰ <strong>Flight departs 06:10.</strong> Aim to leave Draggo no later than 03:30 to allow time for check-in and security. Set multiple alarms.
+            </div>
+            <ul class="event-options">
+              <li>
+                <span class="opt-icon">🚕</span>
+                <span class="opt-text">
+                  <strong>Bolt / Uber</strong>
+                  <span class="our-pick">Recommended</span>
+                  <a class="map-badge" href="https://maps.google.com/?q=50.0777,19.7848" target="_blank" rel="noopener">📍 Airport</a>
+                  — Book in advance or order on the app at 03:30. 25–30 min to the airport. Cheapest option for a group at that hour.
+                  <span class="cost">~35–50 PLN / £7–10</span>
+                </span>
+              </li>
+              <li>
+                <span class="opt-icon">🚖</span>
+                <span class="opt-text">
+                  <strong>Pre-booked taxi</strong>
+                  — If you want certainty at 3am, book a local Kraków taxi company the day before (e.g. Radio Taxi 919). They'll be waiting outside Draggo.
+                  <span class="cost">~50–70 PLN / £10–14</span>
+                </span>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- FOOD & DRINK -->
+  <section>
+    <p class="section-label">Local Essentials</p>
+    <h2>How to be a Local</h2>
+
+    <!-- Drinks -->
+    <div class="fd-subsection">
+      <div class="fd-subheading">🍺 What to Drink</div>
+      <div class="fd-grid">
+
+        <div class="fd-card">
+          <img src="https://images.unsplash.com/photo-1630446070374-df1ec648ac65?w=600&q=80" alt="Żywiec beer" />
+          <div class="fd-card-body">
+            <span class="fd-type">Beer</span>
+            <h4>Żywiec</h4>
+            <p>Poland's most iconic lager. Crisp, golden, always cold.</p>
+          </div>
+        </div>
+
+        <div class="fd-card">
+          <img src="https://images.unsplash.com/photo-1608270586620-248524c67de9?w=600&q=80" alt="Tyskie beer" />
+          <div class="fd-card-body">
+            <span class="fd-type">Beer</span>
+            <h4>Tyskie</h4>
+            <p>The other classic. Lighter and more sessionable than Żywiec.</p>
+          </div>
+        </div>
+
+        <div class="fd-card">
+          <img src="https://images.unsplash.com/photo-1551538827-9c037cb4f32a?w=600&q=80" alt="Żubrówka vodka" />
+          <div class="fd-card-body">
+            <span class="fd-type spirit">Spirit</span>
+            <h4>Żubrówka</h4>
+            <p>Bison Grass Vodka. Smooth with a faint herbal, vanilla note. Try it neat or as a Tatanka — with cloudy apple juice.</p>
+          </div>
+        </div>
+
+        <div class="fd-card">
+          <img src="https://images.unsplash.com/photo-1552844418-3d618ca9af68?w=600&q=80" alt="Soplica vodka" />
+          <div class="fd-card-body">
+            <span class="fd-type spirit">Spirit</span>
+            <h4>Soplica</h4>
+            <p>Polish fruit vodka — cherry, plum, hazelnut and more. Sweet, smooth.</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Food -->
+    <div class="fd-subsection">
+      <div class="fd-subheading">🍽️ What to Eat</div>
+      <div class="fd-grid-3">
+
+        <div class="fd-card">
+          <img src="https://images.unsplash.com/photo-1638502338747-f7f368214cce?w=600&q=80" alt="Pierogi" />
+          <div class="fd-card-body">
+            <span class="fd-type dish">Dish</span>
+            <h4>Pierogi</h4>
+            <p>The national dish. Stuffed dumplings — ruskie (potato and cheese) or meat are the classics.</p>
+          </div>
+        </div>
+
+        <div class="fd-card">
+          <img src="https://images.unsplash.com/photo-1629978448078-c94a0ab6500f?w=600&q=80" alt="Żurek soup" />
+          <div class="fd-card-body">
+            <span class="fd-type dish">Dish</span>
+            <h4>Żurek</h4>
+            <p>Sour rye soup served in a hollowed bread bowl with sausage and a hard-boiled egg.</p>
+          </div>
+        </div>
+
+        <div class="fd-card">
+          <img src="https://images.unsplash.com/photo-1608500218861-01091cdc501e?w=600&q=80" alt="Bigos" />
+          <div class="fd-card-body">
+            <span class="fd-type dish">Dish</span>
+            <h4>Bigos</h4>
+            <p>Hunter's stew. Sauerkraut, meat, mushrooms and herbs slow-cooked for hours. Deeply savoury.</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Some Words -->
+    <div class="fd-subsection">
+      <div class="fd-subheading">🗣️ What to Say</div>
+      <div class="phrase-grid">
+
+        <div class="phrase-card">
+          <div class="phrase-polish">Na zdrowie!</div>
+          <div class="phrase-pronun">Na zdrov-yeh</div>
+          <div class="phrase-english">Cheers!</div>
+        </div>
+
+        <div class="phrase-card">
+          <div class="phrase-polish">Cześć</div>
+          <div class="phrase-pronun">Chesh-ch</div>
+          <div class="phrase-english">Hi / Hello</div>
+        </div>
+
+        <div class="phrase-card">
+          <div class="phrase-polish">Dziękuję</div>
+          <div class="phrase-pronun">Jen-koo-yeh</div>
+          <div class="phrase-english">Thank you</div>
+        </div>
+
+        <div class="phrase-card">
+          <div class="phrase-polish">Proszę</div>
+          <div class="phrase-pronun">Prosh-eh</div>
+          <div class="phrase-english">Please / Here you go</div>
+        </div>
+
+        <div class="phrase-card">
+          <div class="phrase-polish">Przepraszam</div>
+          <div class="phrase-pronun">Psheh-pra-sham</div>
+          <div class="phrase-english">Sorry / Excuse me</div>
+        </div>
+
+        <div class="phrase-card">
+          <div class="phrase-polish">Tak / Nie</div>
+          <div class="phrase-pronun">Tak / Nyeh</div>
+          <div class="phrase-english">Yes / No</div>
+        </div>
+
+        <div class="phrase-card">
+          <div class="phrase-polish">Jedno piwo proszę</div>
+          <div class="phrase-pronun">Yed-no pee-vo prosh-eh</div>
+          <div class="phrase-english">One beer please</div>
+        </div>
+
+        <div class="phrase-card">
+          <div class="phrase-polish">Dwa piwa proszę</div>
+          <div class="phrase-pronun">Dva pee-va prosh-eh</div>
+          <div class="phrase-english">Two beers please</div>
+        </div>
+
+        <div class="phrase-card">
+          <div class="phrase-polish">Rachunek proszę</div>
+          <div class="phrase-pronun">Rah-hoo-nek prosh-eh</div>
+          <div class="phrase-english">The bill, please</div>
+        </div>
+
+        <div class="phrase-card">
+          <div class="phrase-polish">Gdzie jest toaleta?</div>
+          <div class="phrase-pronun">Gdjeh yest to-ah-let-ah</div>
+          <div class="phrase-english">Where's the toilet?</div>
+        </div>
+
+        <div class="phrase-card">
+          <div class="phrase-polish">Ile to kosztuje?</div>
+          <div class="phrase-pronun">Ee-leh to kosh-too-yeh</div>
+          <div class="phrase-english">How much is this?</div>
+        </div>
+
+        <div class="phrase-card">
+          <div class="phrase-polish">Dobranoc</div>
+          <div class="phrase-pronun">Dob-ra-nots</div>
+          <div class="phrase-english">Good night</div>
+        </div>
+
+        <div class="phrase-card">
+          <div class="phrase-polish">Jestem z Anglii</div>
+          <div class="phrase-pronun">Yes-tem z An-glee</div>
+          <div class="phrase-english">I am from England</div>
+        </div>
+
+      </div>
+    </div>
+
+  </section>
+
+</div>
+
+<footer>
+  Josh's Stag · Kraków 2026
+</footer>
+
+<script>
+  // ── Password gate ──
+  (function () {
+    var PASSWORD = 'Slamways';
+    var screen  = document.getElementById('password-screen');
+    var input   = document.getElementById('pw-input');
+    var toggle  = document.getElementById('pw-toggle');
+    var submit  = document.getElementById('pw-submit');
+    var error   = document.getElementById('pw-error');
+
+    // Lock body scroll while password screen is visible
+    document.body.classList.add('pw-locked');
+
+    function unlock() {
+      screen.style.transition = 'opacity 0.45s ease';
+      screen.style.opacity = '0';
+      setTimeout(function () {
+        screen.style.display = 'none';
+        document.body.classList.remove('pw-locked');
+      }, 450);
+    }
+
+    function attempt() {
+      if (input.value === PASSWORD) {
+        unlock();
+      } else {
+        error.style.display = 'block';
+        input.value = '';
+        input.focus();
+        // Shake the input to indicate wrong password
+        input.style.transition = 'transform 0.07s';
+        input.style.transform = 'translateX(8px)';
+        setTimeout(function () { input.style.transform = 'translateX(-8px)'; }, 70);
+        setTimeout(function () { input.style.transform = 'translateX(0)'; }, 140);
+      }
+    }
+
+    submit.addEventListener('click', attempt);
+    input.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter') attempt();
+      if (error.style.display === 'block') error.style.display = 'none';
+    });
+
+    toggle.addEventListener('click', function () {
+      if (input.type === 'password') {
+        input.type = 'text';
+        toggle.textContent = 'Hide';
+      } else {
+        input.type = 'password';
+        toggle.textContent = 'Show';
+      }
+      input.focus();
+    });
+  })();
+
+  // ── Countdown — 16 Sep 2026, 09:25 BST ──
+  (function () {
+    var target = new Date('2026-09-16T09:25:00+01:00').getTime();
+    function pad(n) { return String(n).padStart(2, '0'); }
+    function tick() {
+      var diff = target - Date.now();
+      if (diff <= 0) {
+        document.getElementById('countdown').innerHTML = '<p class="cd-gone">We\'re off.</p>';
+        return;
+      }
+      document.getElementById('cd-d').textContent = pad(Math.floor(diff / 86400000));
+      document.getElementById('cd-h').textContent = pad(Math.floor((diff % 86400000) / 3600000));
+      document.getElementById('cd-m').textContent = pad(Math.floor((diff % 3600000) / 60000));
+      document.getElementById('cd-s').textContent = pad(Math.floor((diff % 60000) / 1000));
+    }
+    tick();
+    setInterval(tick, 1000);
+  })();
+
+  // ── Interactive map (CartoDB light) ──
+  var map = L.map('map', { zoomControl: true }).setView([50.058, 19.936], 14);
+
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/">CARTO</a>',
+    subdomains: 'abcd',
+    maxZoom: 19
+  }).addTo(map);
+
+  function makeIcon(color, emoji) {
+    return L.divIcon({
+      html: '<div style="background:' + color + ';border:2px solid white;border-radius:50%;width:32px;height:32px;display:flex;align-items:center;justify-content:center;font-size:15px;box-shadow:0 2px 6px rgba(0,0,0,0.28)">' + emoji + '</div>',
+      iconSize: [32, 32], iconAnchor: [16, 16], popupAnchor: [0, -18], className: ''
+    });
+  }
+
+  var homeIcon     = makeIcon('#c8102e', '🏠');
+  var exploreIcon  = makeIcon('#1a5c9f', '📍');
+  var drinksIcon   = makeIcon('#d97706', '🍺');
+  var activityIcon = makeIcon('#6d28d9', '🎯');
+  var nightIcon    = makeIcon('#065f46', '🎉');
+  var cultureIcon  = makeIcon('#1e3a5f', '🎭');
+  var tramIcon     = makeIcon('#0891b2', '🚋');
+
+  function glink(lat, lng) {
+    return '<a href="https://maps.google.com/?q=' + lat + ',' + lng + '" target="_blank" rel="noopener" style="display:inline-block;margin-top:7px;font-size:12px;color:#c8102e;text-decoration:none">📍 Open in Google Maps</a>';
+  }
+
+  var locs = [
+    // Base
+    { lat: 50.0607, lng: 19.9362, icon: homeIcon,
+      name: 'Draggo House', note: '6 Gołębia, Old Town — where we\'re staying' },
+
+    // Explore
+    { lat: 50.0617, lng: 19.9372, icon: exploreIcon,
+      name: 'Rynek Główny', note: 'Main Market Square — hub of Old Town' },
+    { lat: 50.0541, lng: 19.9352, icon: exploreIcon,
+      name: 'Wawel Castle', note: 'Royal castle and cathedral, 10 min walk south' },
+    { lat: 50.0665, lng: 19.9389, icon: exploreIcon,
+      name: 'Florian Gate & Barbican', note: 'Medieval fortifications, north end of Old Town' },
+
+    // Drinks
+    { lat: 50.0612, lng: 19.9384, icon: drinksIcon,
+      name: 'ul. Floriańska', note: 'Main bar street through Old Town' },
+    { lat: 50.0512, lng: 19.9448, icon: drinksIcon,
+      name: 'Alchemia', note: 'ul. Estery 5, Kazimierz — candlelit cellar bar' },
+    { lat: 50.0499, lng: 19.9440, icon: drinksIcon,
+      name: 'Propaganda', note: 'ul. Miodowa 20, Kazimierz — cheap and reliable' },
+    { lat: 50.0608, lng: 19.9348, icon: drinksIcon,
+      name: 'Pijalnia Wódki i Piwa', note: 'ul. Szewska 7 — shots from 80p. Don\'t miss it.' },
+
+    // Activities
+    { lat: 50.0617, lng: 19.9360, icon: activityIcon,
+      name: 'Krakow Underground Museum', note: 'Beneath Rynek Główny — medieval excavations' },
+    { lat: 50.0720, lng: 19.9170, icon: activityIcon,
+      name: 'Strzelnica Łobzów (Shooting)', note: '~1.5km northwest of Old Town — our pick for Thursday' },
+
+    // Culture
+    { lat: 50.0476, lng: 19.9456, icon: cultureIcon,
+      name: 'Schindler\'s Factory / MOCAK', note: 'ul. Lipowa 4, Podgórze — 20 min walk across the river' },
+
+    // Nightlife
+    { lat: 50.0528, lng: 19.9268, icon: nightIcon,
+      name: 'Forum Przestrzenie', note: 'Marii Konopnickiej 28 — best club in Krakow' },
+    { lat: 50.0580, lng: 19.9340, icon: nightIcon,
+      name: 'Prozak 2.0', note: 'Plac Dominikański 6 — underground techno, right in Old Town' },
+
+    // Tram stops
+    { lat: 50.0655, lng: 19.9340, icon: tramIcon,
+      name: 'Tram: Teatr Słowackiego', note: '~500m north of Draggo. Multiple lines toward Kraków Główny (main station & airport train).' },
+    { lat: 50.0533, lng: 19.9380, icon: tramIcon,
+      name: 'Tram: Wawel', note: '~700m south of Draggo. Lines toward Podgórze — useful for Schindler\'s Factory area.' },
+    { lat: 50.0605, lng: 19.9245, icon: tramIcon,
+      name: 'Tram: Teatr Bagatela', note: '~400m west of Draggo on ul. Karmelicka. Useful for Kazimierz and western Kraków.' }
+  ];
+
+  locs.forEach(function (loc) {
+    L.marker([loc.lat, loc.lng], { icon: loc.icon })
+      .addTo(map)
+      .bindPopup(
+        '<strong style="font-size:13px">' + loc.name + '</strong>' +
+        '<br><span style="color:#666;font-size:12px">' + loc.note + '</span>' +
+        '<br>' + glink(loc.lat, loc.lng)
+      );
+  });
+</script>
+
+</body>
+</html>
