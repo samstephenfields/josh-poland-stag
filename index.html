@@ -176,6 +176,87 @@
       line-height: 1.1;
     }
 
+    /* ── Pub crawl timeline ── */
+    .crawl-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 28px;
+    }
+    .crawl-meta div {
+      font-size: 0.78rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 6px 14px;
+      color: var(--muted);
+    }
+    .crawl-meta strong { color: var(--text); font-weight: 600; }
+
+    .crawl { position: relative; padding-left: 76px; }
+    .crawl::before {
+      content: '';
+      position: absolute;
+      left: 54px;
+      top: 8px;
+      bottom: 14px;
+      width: 2px;
+      background: var(--border);
+    }
+    .crawl-stop { position: relative; margin-bottom: 18px; }
+    .crawl-stop:last-child { margin-bottom: 0; }
+    .crawl-time {
+      position: absolute;
+      left: -76px;
+      top: 14px;
+      width: 46px;
+      text-align: right;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--text);
+      font-variant-numeric: tabular-nums;
+    }
+    .crawl-dot {
+      position: absolute;
+      left: -27px;
+      top: 17px;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: var(--accent);
+      border: 2px solid var(--bg);
+      box-shadow: 0 0 0 2px var(--border);
+    }
+    .crawl-dot.last { background: #15803d; }
+    .crawl-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 12px 16px 13px;
+    }
+    .crawl-card.finish { border-color: #86efac; background: #f0fdf4; }
+    .crawl-name { font-size: 0.92rem; font-weight: 600; margin-bottom: 4px; }
+    .crawl-desc { font-size: 0.82rem; color: var(--muted); line-height: 1.5; }
+    .crawl-walk { font-size: 0.75rem; color: var(--muted); margin-top: 4px; opacity: 0.85; }
+    .crawl-try {
+      display: inline-block;
+      margin-top: 8px;
+      font-size: 0.74rem;
+      font-weight: 600;
+      color: #b45309;
+      background: #fffbeb;
+      border: 1px solid #fde68a;
+      padding: 2px 9px;
+      border-radius: 4px;
+    }
+
+    @media (max-width: 520px) {
+      .crawl { padding-left: 60px; }
+      .crawl::before { left: 40px; }
+      .crawl-time { left: -60px; width: 34px; font-size: 0.74rem; }
+      .crawl-dot { left: -26px; }
+    }
+
     .dropin-intro {
       font-size: 0.85rem;
       color: var(--muted);
@@ -731,6 +812,7 @@
   <div class="legend-item" data-category="drinks">🍺 Drinks</div>
   <div class="legend-item" data-category="activities">🏃 Activities</div>
   <div class="legend-item" data-category="culture">🎭 Culture</div>
+  <div class="legend-item" data-category="crawl">🍻 Pub crawl</div>
   <div class="legend-item" data-category="tram">🚋 Tram stop</div>
 </div>
 
@@ -896,8 +978,9 @@
               <li>
                 <span class="opt-icon">🍻</span>
                 <span class="opt-text">
-                  <strong>Bar crawl</strong>:
-                  Kicks off at 2pm. Bar list to follow.
+                  <strong>Old Town Pub Crawl</strong>
+                  <a class="map-badge" href="#crawl">📋 Running order</a>:
+                  Eight stops, 14:00 to 21:00. Lunch at MoaBurger first, finishing at karaoke.
                 </span>
               </li>
             </ul>
@@ -912,7 +995,7 @@
                 <span class="opt-icon">🎤</span>
                 <span class="opt-text">
                   <strong>Karaoke</strong>:
-                  Two hours, 9pm until 11pm.
+                  Private rooms booked at Karaoke Spot, ul. Westerplatte 13. Final stop on the crawl.
                 </span>
               </li>
             </ul>
@@ -1009,6 +1092,121 @@
               </li>
             </ul>
           </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- PUB CRAWL -->
+  <section id="crawl">
+    <p class="section-label">Friday 18 September</p>
+    <h2>Old Town Pub Crawl</h2>
+
+    <div class="crawl-meta">
+      <div><strong>Start:</strong> 6 Gołębia, Old Town</div>
+      <div><strong>Finish:</strong> Karaoke Spot, Westerplatte 13</div>
+      <div><strong>8 stops:</strong> 14:00 to 21:00</div>
+    </div>
+
+    <div class="crawl">
+
+      <div class="crawl-stop">
+        <div class="crawl-time">14:00</div>
+        <div class="crawl-dot"></div>
+        <div class="crawl-card">
+          <div class="crawl-name">MoaBurger
+            <a class="map-badge" href="https://www.google.com/maps/search/?api=1&query=MoaBurger+Miko%C5%82ajska+3+Krak%C3%B3w" target="_blank" rel="noopener">📍 Map</a>
+          </div>
+          <div class="crawl-desc">Lunch before the off. ul. Mikołajska 3.</div>
+          <div class="crawl-walk">🚶 7 min walk from the apartment</div>
+        </div>
+      </div>
+
+      <div class="crawl-stop">
+        <div class="crawl-time">15:00</div>
+        <div class="crawl-dot"></div>
+        <div class="crawl-card">
+          <div class="crawl-name">House of Beer
+            <a class="map-badge" href="https://houseofbeerkrakow.com/en/" target="_blank" rel="noopener">🌐 Website</a>
+          </div>
+          <div class="crawl-desc">Craft beer bar. ul. Św. Tomasza 35.</div>
+          <div class="crawl-walk">🚶 3 min walk from MoaBurger</div>
+          <span class="crawl-try">Try: Polish IPA</span>
+        </div>
+      </div>
+
+      <div class="crawl-stop">
+        <div class="crawl-time">16:00</div>
+        <div class="crawl-dot"></div>
+        <div class="crawl-card">
+          <div class="crawl-name">Duffy's Irish Bar
+            <a class="map-badge" href="https://www.google.com/maps/search/?api=1&query=Duffy%27s+Irish+Bar+Krak%C3%B3w" target="_blank" rel="noopener">📍 Map</a>
+          </div>
+          <div class="crawl-desc">Cider stop.</div>
+          <div class="crawl-walk">🚶 5 min walk from House of Beer</div>
+        </div>
+      </div>
+
+      <div class="crawl-stop">
+        <div class="crawl-time">17:00</div>
+        <div class="crawl-dot"></div>
+        <div class="crawl-card">
+          <div class="crawl-name">Pijalnia Wódki i Piwa
+            <a class="map-badge" href="https://www.google.com/maps/search/?api=1&query=Pijalnia+W%C3%B3dki+i+Piwa+Szewska+Krak%C3%B3w" target="_blank" rel="noopener">📍 Map</a>
+          </div>
+          <div class="crawl-desc">Traditional Polish pub. Shots for next to nothing.</div>
+          <div class="crawl-walk">🚶 4 min walk from Duffy's</div>
+          <span class="crawl-try">Try: Beer plus a flavoured vodka shot</span>
+        </div>
+      </div>
+
+      <div class="crawl-stop">
+        <div class="crawl-time">18:00</div>
+        <div class="crawl-dot"></div>
+        <div class="crawl-card">
+          <div class="crawl-name">Piwnica Pod Baranami
+            <a class="map-badge" href="https://www.google.com/maps/search/?api=1&query=Piwnica+Pod+Baranami+Rynek+G%C5%82%C3%B3wny+27+Krak%C3%B3w" target="_blank" rel="noopener">📍 Map</a>
+          </div>
+          <div class="crawl-desc">Historic underground cellar pub. Rynek Główny 27.</div>
+          <div class="crawl-walk">🚶 5 min walk</div>
+        </div>
+      </div>
+
+      <div class="crawl-stop">
+        <div class="crawl-time">19:00</div>
+        <div class="crawl-dot"></div>
+        <div class="crawl-card">
+          <div class="crawl-name">Movida
+            <a class="map-badge" href="https://www.google.com/maps/search/?api=1&query=Movida+Cocktail+Bar+Miko%C5%82ajska+9+Krak%C3%B3w" target="_blank" rel="noopener">📍 Map</a>
+          </div>
+          <div class="crawl-desc">Cocktail stop. ul. Mikołajska 9.</div>
+          <div class="crawl-walk">🚶 2 min walk</div>
+          <span class="crawl-try">Try: Espresso Martini</span>
+        </div>
+      </div>
+
+      <div class="crawl-stop">
+        <div class="crawl-time">20:00</div>
+        <div class="crawl-dot"></div>
+        <div class="crawl-card">
+          <div class="crawl-name">Klub Społem Deluxe
+            <a class="map-badge" href="https://www.google.com/maps/search/?api=1&query=Spo%C5%82em+Deluxe+Floria%C5%84ska+53+Krak%C3%B3w" target="_blank" rel="noopener">📍 Map</a>
+          </div>
+          <div class="crawl-desc">Retro Polish bar. ul. Floriańska 53.</div>
+          <div class="crawl-walk">🚶 8 to 10 min walk</div>
+          <span class="crawl-try">Try: Żubrówka and apple juice</span>
+        </div>
+      </div>
+
+      <div class="crawl-stop">
+        <div class="crawl-time">21:00</div>
+        <div class="crawl-dot last"></div>
+        <div class="crawl-card finish">
+          <div class="crawl-name">Karaoke Spot
+            <a class="map-badge" href="https://www.google.com/maps/search/?api=1&query=Karaoke+Westerplatte+13+Krak%C3%B3w" target="_blank" rel="noopener">📍 Map</a>
+          </div>
+          <div class="crawl-desc">Private karaoke rooms booked. ul. Westerplatte 13.</div>
         </div>
       </div>
 
@@ -1419,6 +1617,7 @@
   var drinksIcon   = makeIcon('#d97706', '🍺');
   var activityIcon = makeIcon('#6d28d9', '🏃');
   var cultureIcon  = makeIcon('#1e3a5f', '🎭');
+  var crawlIcon    = makeIcon('#15803d', '🍻');
   var tramIcon     = makeIcon('#0891b2', '🚋');
 
   function glink(lat, lng) {
@@ -1473,6 +1672,24 @@
       name: 'Muzeum Czartoryskich', note: 'ul. Pijarska 15. Home of da Vinci\'s Lady with an Ermine. Tue–Sun 10:00–18:00.' },
     { lat: 50.0640, lng: 19.9397, icon: cultureIcon, category: 'culture',
       name: 'Polonia Wax Museum', note: 'ul. Floriańska 32. Famously bad, roasted by Clarkson on The Grand Tour.' },
+
+    // Friday pub crawl
+    { lat: 50.0618, lng: 19.9412, icon: crawlIcon, category: 'crawl',
+      name: '14:00 MoaBurger', note: 'ul. Mikołajska 3. Lunch, 7 min walk from the apartment.' },
+    { lat: 50.0626, lng: 19.9416, icon: crawlIcon, category: 'crawl',
+      name: '15:00 House of Beer', note: 'ul. Św. Tomasza 35. Craft beer bar. Try the Polish IPA.' },
+    { lat: 50.0487, lng: 19.9455, icon: crawlIcon, category: 'crawl',
+      name: '16:00 Duffy\'s Irish Bar', note: 'ul. Św. Wawrzyńca 18, Kazimierz. Cider stop.' },
+    { lat: 50.0622, lng: 19.9328, icon: crawlIcon, category: 'crawl',
+      name: '17:00 Pijalnia Wódki i Piwa', note: 'ul. Szewska 20. Traditional Polish pub. Beer plus a flavoured vodka shot.' },
+    { lat: 50.0616, lng: 19.9358, icon: crawlIcon, category: 'crawl',
+      name: '18:00 Piwnica Pod Baranami', note: 'Rynek Główny 27. Historic underground cellar pub.' },
+    { lat: 50.0620, lng: 19.9414, icon: crawlIcon, category: 'crawl',
+      name: '19:00 Movida', note: 'ul. Mikołajska 9. Cocktail stop. Try the Espresso Martini.' },
+    { lat: 50.0650, lng: 19.9403, icon: crawlIcon, category: 'crawl',
+      name: '20:00 Klub Społem Deluxe', note: 'ul. Floriańska 53. Retro Polish bar. Żubrówka and apple juice.' },
+    { lat: 50.0614, lng: 19.9436, icon: crawlIcon, category: 'crawl',
+      name: '21:00 Karaoke Spot', note: 'ul. Westerplatte 13. Private karaoke rooms booked.' },
 
     // Tram stops
     { lat: 50.0596, lng: 19.9366, icon: tramIcon, category: 'tram',
