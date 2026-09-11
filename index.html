@@ -193,11 +193,11 @@
     }
     .crawl-meta strong { color: var(--text); font-weight: 600; }
 
-    .crawl { position: relative; padding-left: 76px; }
+    .crawl { position: relative; padding-left: 92px; }
     .crawl::before {
       content: '';
       position: absolute;
-      left: 54px;
+      left: 66px;
       top: 8px;
       bottom: 14px;
       width: 2px;
@@ -207,7 +207,7 @@
     .crawl-stop:last-child { margin-bottom: 0; }
     .crawl-time {
       position: absolute;
-      left: -76px;
+      left: -92px;
       top: 14px;
       width: 46px;
       text-align: right;
@@ -218,16 +218,27 @@
     }
     .crawl-dot {
       position: absolute;
-      left: -27px;
-      top: 17px;
-      width: 12px;
-      height: 12px;
+      left: -37px;
+      top: 11px;
+      width: 24px;
+      height: 24px;
       border-radius: 50%;
       background: var(--accent);
-      border: 2px solid var(--bg);
-      box-shadow: 0 0 0 2px var(--border);
+      color: #fff;
+      font-size: 0.68rem;
+      font-weight: 700;
+      font-variant-numeric: tabular-nums;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 3px solid var(--bg);
+      box-shadow: 0 0 0 1px var(--border);
+      letter-spacing: 0;
     }
-    .crawl-dot.last { background: #15803d; }
+    .crawl-dot.last {
+      background: #15803d;
+      font-size: 0.8rem;
+    }
     .crawl-card {
       background: var(--surface);
       border: 1px solid var(--border);
@@ -247,13 +258,6 @@
       display: block;
     }
     .crawl-body { flex: 1; min-width: 0; }
-    .crawl-note {
-      font-size: 0.72rem;
-      color: var(--muted);
-      opacity: 0.8;
-      margin-top: 18px;
-      padding-left: 76px;
-    }
     .crawl-card.finish { border-color: #86efac; background: #f0fdf4; }
     .crawl-name { font-size: 0.92rem; font-weight: 600; margin-bottom: 4px; }
     .crawl-desc { font-size: 0.82rem; color: var(--muted); line-height: 1.5; }
@@ -271,13 +275,13 @@
     }
 
     @media (max-width: 520px) {
-      .crawl { padding-left: 66px; }
-      .crawl::before { left: 48px; }
-      .crawl-time { left: -66px; width: 38px; font-size: 0.7rem; }
-      .crawl-dot { left: -24px; }
+      .crawl { padding-left: 72px; }
+      .crawl::before { left: 52px; }
+      .crawl-time { left: -72px; width: 38px; font-size: 0.7rem; }
+      .crawl-dot { left: -29px; top: 13px; width: 20px; height: 20px; font-size: 0.62rem; }
+      .crawl-dot.last { font-size: 0.72rem; }
       .crawl-img { width: 68px; height: 68px; }
       .crawl-card { gap: 11px; }
-      .crawl-note { padding-left: 66px; }
     }
 
     .dropin-intro {
@@ -1161,7 +1165,7 @@
 
       <div class="crawl-stop">
         <div class="crawl-time">14:00</div>
-        <div class="crawl-dot"></div>
+        <div class="crawl-dot">1</div>
         <div class="crawl-card">
           <img class="crawl-img" src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=400&q=80" alt="Burger and bun" loading="lazy" />
           <div class="crawl-body">
@@ -1176,7 +1180,7 @@
 
       <div class="crawl-stop">
         <div class="crawl-time">15:00</div>
-        <div class="crawl-dot"></div>
+        <div class="crawl-dot">2</div>
         <div class="crawl-card">
           <img class="crawl-img" src="https://images.unsplash.com/photo-1597076845776-0024e8e607a4?w=400&q=80" alt="Pint of beer in a traditional pub" loading="lazy" />
           <div class="crawl-body">
@@ -1191,7 +1195,7 @@
 
       <div class="crawl-stop">
         <div class="crawl-time">16:00</div>
-        <div class="crawl-dot"></div>
+        <div class="crawl-dot">3</div>
         <div class="crawl-card">
           <img class="crawl-img" src="https://images.unsplash.com/photo-1584225065152-4a1454aa3d4e?w=400&q=80" alt="Craft beer poured from a row of taps" loading="lazy" />
           <div class="crawl-body">
@@ -1207,7 +1211,7 @@
 
       <div class="crawl-stop">
         <div class="crawl-time">17:00</div>
-        <div class="crawl-dot"></div>
+        <div class="crawl-dot">4</div>
         <div class="crawl-card">
           <img class="crawl-img" src="https://images.unsplash.com/photo-1478087705191-2bb925389f82?w=400&q=80" alt="Row of coloured flavoured shots" loading="lazy" />
           <div class="crawl-body">
@@ -1223,7 +1227,7 @@
 
       <div class="crawl-stop">
         <div class="crawl-time">18:00</div>
-        <div class="crawl-dot"></div>
+        <div class="crawl-dot">5</div>
         <div class="crawl-card">
           <img class="crawl-img" src="https://images.unsplash.com/photo-1562663729-4971d6802f4a?w=400&q=80" alt="Vaulted brick cellar" loading="lazy" />
           <div class="crawl-body">
@@ -1238,7 +1242,7 @@
 
       <div class="crawl-stop">
         <div class="crawl-time">19:00</div>
-        <div class="crawl-dot"></div>
+        <div class="crawl-dot">6</div>
         <div class="crawl-card">
           <img class="crawl-img" src="https://images.unsplash.com/photo-1559496417-e7f25cb247f3?w=400&q=80" alt="Espresso cocktail in a glass" loading="lazy" />
           <div class="crawl-body">
@@ -1254,7 +1258,7 @@
 
       <div class="crawl-stop">
         <div class="crawl-time">20:00</div>
-        <div class="crawl-dot"></div>
+        <div class="crawl-dot">7</div>
         <div class="crawl-card">
           <img class="crawl-img" src="https://images.unsplash.com/photo-1583120371797-60dfd58f573a?w=400&q=80" alt="Neon lit retro bar interior" loading="lazy" />
           <div class="crawl-body">
@@ -1270,7 +1274,7 @@
 
       <div class="crawl-stop">
         <div class="crawl-time">21:00</div>
-        <div class="crawl-dot last"></div>
+        <div class="crawl-dot last">🎤</div>
         <div class="crawl-card finish">
           <img class="crawl-img" src="https://images.unsplash.com/photo-1521424159246-e4a66f267e4b?w=400&q=80" alt="Microphone" loading="lazy" />
           <div class="crawl-body">
@@ -1283,7 +1287,6 @@
       </div>
 
     </div>
-    <p class="crawl-note">Photos are illustrative, not of the venues themselves.</p>
   </section>
 
   <!-- DROP-IN OPTIONS -->
