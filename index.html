@@ -176,6 +176,15 @@
       line-height: 1.1;
     }
 
+    .dropin-intro {
+      font-size: 0.85rem;
+      color: var(--muted);
+      line-height: 1.6;
+      margin-top: -20px;
+      margin-bottom: 32px;
+      max-width: 620px;
+    }
+
     /* ── Flights — Ryanair themed ── */
     .flights-grid {
       display: grid;
@@ -718,9 +727,9 @@
 <div class="map-legend">
   <div class="legend-item" data-category="home">🏠 Base camp</div>
   <div class="legend-item" data-category="explore">📍 Explore</div>
+  <div class="legend-item" data-category="food">🍴 Food</div>
   <div class="legend-item" data-category="drinks">🍺 Drinks</div>
-  <div class="legend-item" data-category="activities">🎯 Activities</div>
-  <div class="legend-item" data-category="nightlife">🎉 Nightlife</div>
+  <div class="legend-item" data-category="activities">🏃 Activities</div>
   <div class="legend-item" data-category="culture">🎭 Culture</div>
   <div class="legend-item" data-category="tram">🚋 Tram stop</div>
 </div>
@@ -781,8 +790,8 @@
 
   <!-- SCHEDULE -->
   <section>
-    <p class="section-label">Schedule</p>
-    <h2>Things We Can Do</h2>
+    <p class="section-label">Itinerary</p>
+    <h2>The Plan</h2>
     <div class="agenda">
 
       <!-- WEDNESDAY -->
@@ -792,11 +801,9 @@
           <span class="day-date">16 September</span>
         </div>
 
-        <!-- Wed Arrival -->
         <div class="event">
           <div class="event-time">Arrival</div>
           <div class="event-body">
-
             <ul class="event-options">
               <li>
                 <span class="opt-icon">🚕</span>
@@ -804,7 +811,7 @@
                   <strong>Bolt / Uber</strong>
                   <span class="our-pick">Recommended</span>
                   <a class="map-badge" href="https://maps.google.com/?q=50.0777,19.7848" target="_blank" rel="noopener">📍 Airport</a>
-                  — Open the app at arrivals and order to Draggo House. 25–30 min, no faff. Best option for a group with bags.
+                  — Land 12:55. Open the app at arrivals and order to Draggo House. 25–30 min, no faff.
                   <span class="cost">~35–50 PLN / £7–10</span>
                 </span>
               </li>
@@ -812,7 +819,7 @@
                 <span class="opt-icon">🚌</span>
                 <span class="opt-text">
                   <strong>Bus 208 or 902</strong>
-                  — From the airport bus stop to the city centre. ~50 min. Cheap but slower and you'll need to walk the last bit with luggage.
+                  — From the airport bus stop to the city centre. ~50 min. Cheap but slower with luggage.
                   <span class="cost">~6 PLN / £1.20</span>
                 </span>
               </li>
@@ -820,85 +827,31 @@
           </div>
         </div>
 
-        <!-- Wed Day -->
         <div class="event">
           <div class="event-time">Day</div>
           <div class="event-body">
-
             <ul class="event-options">
               <li>
-                <span class="opt-icon">🏛️</span>
+                <span class="opt-icon">🚶</span>
                 <span class="opt-text">
-                  <strong>Rynek Główny</strong>
-                  <a class="map-badge" href="https://www.google.com/maps/search/?api=1&query=Rynek+G%C5%82%C3%B3wny+Krak%C3%B3w" target="_blank" rel="noopener">📍 Map</a>
-                  — 2 min walk. Main Market Square — grab a beer, catch the bugle call from St. Mary's on the hour. Free.
-                </span>
-              </li>
-              <li>
-                <span class="opt-icon">🏰</span>
-                <span class="opt-text">
-                  <strong>Wawel Castle & Hill</strong>
-                  <a class="map-badge" href="https://wawel.krakow.pl/en" target="_blank" rel="noopener">🌐 Website</a>
-                  — 10 min walk south. Castle, royal cathedral, dragon's cave at the base.
-                  <span class="cost">~40 PLN / £8pp</span>
-                </span>
-              </li>
-              <li>
-                <span class="opt-icon">🧱</span>
-                <span class="opt-text">
-                  <strong>Florian Gate & Barbican</strong>
-                  <a class="map-badge" href="https://www.google.com/maps/search/?api=1&query=Florian+Gate+Barbican+Krak%C3%B3w" target="_blank" rel="noopener">📍 Map</a>
-                  — 8 min walk north. Medieval fortifications. Quick to walk and impressive up close. Free.
+                  <strong>Wander around the city</strong>
+                  — Get our bearings. Old Town, Rynek Główny and the surrounding streets are all on the doorstep.
                 </span>
               </li>
             </ul>
           </div>
         </div>
 
-        <!-- Wed Night -->
         <div class="event">
-          <div class="event-time">Night</div>
+          <div class="event-time">Food</div>
           <div class="event-body">
-
-            <div class="zone-note">📍 Head to Old Town — everything is within 5 min walk of Draggo. Start at Pijalnia, then the night takes care of itself.</div>
             <ul class="event-options">
               <li>
-                <span class="opt-icon">🍻</span>
+                <span class="opt-icon">🥩</span>
                 <span class="opt-text">
-                  <strong>Pijalnia Wódki i Piwa</strong>
-                  <span class="start-badge">Start here</span>
-                  <a class="map-badge" href="https://www.google.com/maps/search/?api=1&query=Pijalnia+W%C3%B3dki+i+Piwa+Krak%C3%B3w" target="_blank" rel="noopener">📍 Map</a>
-                  — 4 min walk. The first stop on every great Kraków night. Shots and beers for next to nothing.
-                  <span class="cost">~4 PLN / 80p a shot</span>
-                </span>
-              </li>
-            </ul>
-            <div class="area-also">Also in the area</div>
-            <ul class="event-options">
-              <li>
-                <span class="opt-icon">🥃</span>
-                <span class="opt-text">
-                  <strong>Vodka Tasting</strong>
-                  <a class="map-badge" href="https://www.google.com/maps/search/?api=1&query=vodka+tasting+Krak%C3%B3w" target="_blank" rel="noopener">📍 Map</a>
-                  — 4 min walk. Guided Polish vodka tasting — 5–6 varieties with commentary.
-                  <span class="cost">~50–70 PLN / £10–14pp</span>
-                </span>
-              </li>
-              <li>
-                <span class="opt-icon">🍺</span>
-                <span class="opt-text">
-                  <strong>ul. Floriańska</strong>
-                  <a class="map-badge" href="https://www.google.com/maps/search/?api=1&query=ul.+Floria%C5%84ska+Krak%C3%B3w" target="_blank" rel="noopener">📍 Map</a>
-                  — 3 min walk. Main bar street — walk it and see what takes your fancy.
-                </span>
-              </li>
-              <li>
-                <span class="opt-icon">🌃</span>
-                <span class="opt-text">
-                  <strong>Shine Club</strong>
-                  <a class="map-badge" href="https://www.google.com/maps/search/?api=1&query=Shine+Club+Krak%C3%B3w" target="_blank" rel="noopener">📍 Map</a>
-                  — 5 min walk. Good for later when you want it louder.
-                  <span class="cost">~20 PLN / £4 entry</span>
+                  <strong>Moo Moo Steak House</strong>
+                  <a class="map-badge" href="https://www.moomoo.com.pl/en_index.html" target="_blank" rel="noopener">🌐 Website</a>
+                  — ul. Świętego Krzyża 15, Old Town. 6 min walk from Draggo.
                 </span>
               </li>
             </ul>
@@ -913,85 +866,15 @@
           <span class="day-date">17 September</span>
         </div>
 
-        <!-- Thu Day -->
         <div class="event">
           <div class="event-time">Day</div>
           <div class="event-body">
-
             <ul class="event-options">
               <li>
-                <span class="opt-icon">🔫</span>
+                <span class="opt-icon">🎯</span>
                 <span class="opt-text">
-                  <strong>Shooting Range</strong>
-                  <span class="choose-label">— pick a venue</span>
-                  <div class="sub-options">
-                    <div class="sub-opt">
-                      <strong>Strzelnica Łobzów</strong>
-                      <span class="our-pick">Our pick</span>
-                      <a class="map-badge" href="https://www.google.com/maps/search/?api=1&query=Strzelnica+%C5%81obz%C3%B3w+Krak%C3%B3w" target="_blank" rel="noopener">📍 Map</a>
-                      · 1.5km NW · 10 min taxi · Handguns, rifles, shotguns. Book a group package 24 hrs ahead.
-                      <span class="cost">~150–200 PLN / £30–40pp</span>
-                    </div>
-                    <div class="sub-opt">
-                      <strong>Combat Zone Kraków</strong>
-                      <a class="map-badge" href="https://www.google.com/maps/search/?api=1&query=Combat+Zone+Krak%C3%B3w" target="_blank" rel="noopener">📍 Map</a>
-                      · 4km · 15 min taxi (transport often included via stag company) · More weapon variety.
-                      <span class="cost">~170–220 PLN / £34–44pp</span>
-                    </div>
-                  </div>
-                </span>
-              </li>
-            </ul>
-            <div class="or-divider">or</div>
-            <ul class="event-options">
-              <li>
-                <span class="opt-icon">🏎️</span>
-                <span class="opt-text">
-                  <strong>Go Karting</strong>
-                  <a class="map-badge" href="https://www.google.com/maps/search/?api=1&query=go+karting+Krak%C3%B3w" target="_blank" rel="noopener">📍 Map</a>
-                  — 5km south, 15 min taxi. Indoor karting circuit. Book a group session — most tracks offer timed races with a leaderboard.
-                  <span class="cost">~80–120 PLN / £16–24pp</span>
-                </span>
-              </li>
-            </ul>
-          </div>
-        </div>
-
-        <!-- Thu Night -->
-        <div class="event">
-          <div class="event-time">Night</div>
-          <div class="event-body">
-            <div class="zone-note">📍 Head to Kazimierz — 15 min walk or 5 min taxi from Draggo. Start with the oil wrestling, then bar hop from Alchemia.</div>
-            <ul class="event-options">
-              <li>
-                <span class="opt-icon">💋</span>
-                <span class="opt-text">
-                  <strong>Female Oil Wrestling</strong>
-                  <span class="start-badge">Start here</span>
-                  <a class="map-badge" href="https://www.stagkrakow.com" target="_blank" rel="noopener">🌐 Book</a>
-                  — Book through a Kraków stag company (e.g. Stag Krakow, The Stag Company). Private venue in Kazimierz — transport and entry sorted for you.
-                  <span class="cost">~£20–30pp</span>
-                </span>
-              </li>
-            </ul>
-            <div class="area-also">Also in the area</div>
-            <ul class="event-options">
-              <li>
-                <span class="opt-icon">🕯️</span>
-                <span class="opt-text">
-                  <strong>Alchemia</strong>
-                  <a class="map-badge" href="https://alchemia.com.pl" target="_blank" rel="noopener">🌐 Website</a>
-                  — Candlelit cellar bar. The iconic Kazimierz spot — great atmosphere, cold beer.
-                  <span class="cost">~12 PLN / £2.50 a beer</span>
-                </span>
-              </li>
-              <li>
-                <span class="opt-icon">☭</span>
-                <span class="opt-text">
-                  <strong>Propaganda</strong>
-                  <a class="map-badge" href="https://www.google.com/maps/search/?api=1&query=Propaganda+bar+Krak%C3%B3w" target="_blank" rel="noopener">📍 Map</a>
-                  — Communist-themed bar two minutes from Alchemia. Cheap drinks, gets lively by 10pm.
-                  <span class="cost">~8–12 PLN / £1.60–2.50 a beer</span>
+                  <strong>Paintball</strong>
+                  — Venue and timings to be confirmed.
                 </span>
               </li>
             </ul>
@@ -1006,58 +889,30 @@
           <span class="day-date">18 September</span>
         </div>
 
-        <!-- Fri Day -->
         <div class="event">
-          <div class="event-time">Day</div>
+          <div class="event-time">2pm →</div>
           <div class="event-body">
-
             <ul class="event-options">
               <li>
-                <span class="opt-icon">⛏️</span>
+                <span class="opt-icon">🍻</span>
                 <span class="opt-text">
-                  <strong>Krakow Underground Museum</strong>
-                  <a class="map-badge" href="https://podziemiarynku.com/en/" target="_blank" rel="noopener">🌐 Website</a>
-                  — 2 min walk. Excavated medieval market streets beneath Rynek. Good quick culture fix before the big night.
-                  <span class="cost">~25 PLN / £5pp</span>
-                </span>
-              </li>
-              <li>
-                <span class="opt-icon">🏭</span>
-                <span class="opt-text">
-                  <strong>Schindler's Factory</strong>
-                  <a class="map-badge" href="https://muzeumkrakowa.pl/en" target="_blank" rel="noopener">🌐 Website</a>
-                  — 20 min walk / 10 min taxi. Best WWII museum in Poland. Genuinely moving.
-                  <span class="cost">~25 PLN / £5pp</span>
+                  <strong>Bar crawl</strong>
+                  — Kicks off at 2pm. Bar list to follow.
                 </span>
               </li>
             </ul>
           </div>
         </div>
 
-        <!-- Fri Night -->
         <div class="event">
-          <div class="event-time">Night</div>
+          <div class="event-time">9–11pm</div>
           <div class="event-body">
-
-            <div class="zone-note">📍 Aaron is confirming the venue — pre-drink in Old Town first, then head out when the destination is locked in.</div>
             <ul class="event-options">
               <li>
-                <span class="opt-icon">🎉</span>
+                <span class="opt-icon">🎤</span>
                 <span class="opt-text">
-                  <strong>To Be Confirmed</strong>
-                  <span class="start-badge">Main destination</span>
-                </span>
-              </li>
-            </ul>
-            <div class="area-also">Backup — if plans change</div>
-            <ul class="event-options">
-              <li>
-                <span class="opt-icon">🎧</span>
-                <span class="opt-text">
-                  <strong>Prozak 2.0</strong>
-                  <a class="map-badge" href="https://www.google.com/maps/search/?api=1&query=Prozak+2.0+Krak%C3%B3w" target="_blank" rel="noopener">📍 Map</a>
-                  — 5 min walk from Draggo. Underground techno and house, goes until 6am.
-                  <span class="cost">~20–40 PLN / £4–8 entry</span>
+                  <strong>Karaoke</strong>
+                  — Two hours, 9pm until 11pm.
                 </span>
               </li>
             </ul>
@@ -1072,77 +927,47 @@
           <span class="day-date">19 September</span>
         </div>
 
-        <!-- Sat Day -->
         <div class="event">
-          <div class="event-time">Day</div>
+          <div class="event-time">9am</div>
           <div class="event-body">
-
             <ul class="event-options">
               <li>
-                <span class="opt-icon">🧂</span>
+                <span class="opt-icon">🏃</span>
                 <span class="opt-text">
-                  <strong>Wieliczka Salt Mine</strong>
-                  <a class="map-badge" href="https://wieliczka-saltmine.com" target="_blank" rel="noopener">🌐 Website</a>
-                  — 30 min by taxi. UNESCO site. Underground world carved from salt over 700 years, including a cathedral. Book online.
-                  <span class="cost">~99 PLN / £20pp</span>
-                </span>
-              </li>
-              <li>
-                <span class="opt-icon">🏰</span>
-                <span class="opt-text">
-                  <strong>Wawel Castle full tour</strong>
-                  <a class="map-badge" href="https://wawel.krakow.pl/en" target="_blank" rel="noopener">🌐 Website</a>
-                  — 10 min walk. Staterooms, royal treasury, and armoury. Better with a guide.
-                  <span class="cost">~40–65 PLN / £8–13pp</span>
-                </span>
-              </li>
-              <li>
-                <span class="opt-icon">🏗️</span>
-                <span class="opt-text">
-                  <strong>Nowa Huta</strong>
-                  <a class="map-badge" href="https://www.google.com/maps/search/?api=1&query=Nowa+Huta+Krak%C3%B3w" target="_blank" rel="noopener">📍 Map</a>
-                  — 30 min by tram. Intact Soviet-era planned city. Completely different from Old Town, genuinely interesting. Free.
+                  <strong>parkrun — Młynówka Królewska</strong>
+                  <a class="map-badge" href="https://www.parkrun.pl/mlynowkakrolewska/" target="_blank" rel="noopener">🌐 Website</a>
+                  — Free 5km, every Saturday at 9am. Start is ul. Zygmunta Starego / Filtrowa. Register online beforehand and bring your barcode.
+                  <span class="cost">Free</span>
                 </span>
               </li>
             </ul>
           </div>
         </div>
 
-        <!-- Sat Night -->
         <div class="event">
-          <div class="event-time">Night</div>
+          <div class="event-time">4pm</div>
           <div class="event-body">
-            <div class="zone-note">📍 Head to Kazimierz for dinner — 15 min walk or 5 min taxi. Last night, 6am flight Sunday.</div>
             <ul class="event-options">
               <li>
-                <span class="opt-icon">🍽️</span>
+                <span class="opt-icon">🔫</span>
                 <span class="opt-text">
-                  <strong>Starka</strong>
-                  <span class="start-badge">Start here</span>
-                  <a class="map-badge" href="https://www.google.com/maps/search/?api=1&query=Starka+restaurant+Krak%C3%B3w" target="_blank" rel="noopener">📍 Map</a>
-                  — 15 min walk / 5 min taxi. Classic Polish sit-down dinner. Good way to mark the end of the trip properly.
-                  <span class="cost">~60–80 PLN / £12–16pp</span>
+                  <strong>Gun Range</strong>
+                  — 4pm. Venue to be confirmed.
                 </span>
               </li>
             </ul>
-            <div class="area-also">Also in the area</div>
+          </div>
+        </div>
+
+        <div class="event">
+          <div class="event-time">Night</div>
+          <div class="event-body">
             <ul class="event-options">
               <li>
-                <span class="opt-icon">🛋️</span>
+                <span class="opt-icon">🎧</span>
                 <span class="opt-text">
-                  <strong>Mleczarnia</strong>
-                  <a class="map-badge" href="https://www.google.com/maps/search/?api=1&query=Mleczarnia+bar+Krak%C3%B3w" target="_blank" rel="noopener">📍 Map</a>
-                  — Two minutes from Starka. Cosy bar, low music, good beer. Ideal wind-down spot.
-                  <span class="cost">~12–15 PLN / £2.50–3 a beer</span>
-                </span>
-              </li>
-              <li>
-                <span class="opt-icon">🥣</span>
-                <span class="opt-text">
-                  <strong>Bar Mleczny</strong>
-                  <a class="map-badge" href="https://www.google.com/maps/search/?api=1&query=Bar+Mleczny+Krak%C3%B3w" target="_blank" rel="noopener">📍 Map</a>
-                  — Old Town, 5 min walk from Draggo. Canteen-style Polish food. Cheap, filling, exactly what's needed after a big week.
-                  <span class="cost">~20–30 PLN / £4–6pp</span>
+                  <strong>DNB night out</strong>
+                  — Last night. Venue to be confirmed.
                 </span>
               </li>
             </ul>
@@ -1156,10 +981,10 @@
           <span class="day-name">Sunday</span>
           <span class="day-date">20 September</span>
         </div>
+
         <div class="event">
           <div class="event-time">Morning</div>
           <div class="event-body">
-
             <div class="event-note">
               ⏰ <strong>Flight departs 06:10.</strong> Aim to leave Draggo no later than 03:30 to allow time for check-in and security. Set multiple alarms.
             </div>
@@ -1170,7 +995,7 @@
                   <strong>Bolt / Uber</strong>
                   <span class="our-pick">Recommended</span>
                   <a class="map-badge" href="https://maps.google.com/?q=50.0777,19.7848" target="_blank" rel="noopener">📍 Airport</a>
-                  — Book in advance or order on the app at 03:30. 25–30 min to the airport. Cheapest option for a group at that hour.
+                  — Book in advance or order on the app at 03:30. 25–30 min to the airport.
                   <span class="cost">~35–50 PLN / £7–10</span>
                 </span>
               </li>
@@ -1188,6 +1013,136 @@
       </div>
 
     </div>
+  </section>
+
+  <!-- DROP-IN OPTIONS -->
+  <section>
+    <p class="section-label">Local Recommendations</p>
+    <h2>Drop-In Options</h2>
+    <p class="dropin-intro">Straight from a Kraków local — worth slotting in wherever there's a gap in the day. All of these are pinned on the map above.</p>
+
+    <div class="fd-subsection">
+      <div class="fd-subheading">🍴 Food</div>
+      <ul class="event-options">
+        <li>
+          <span class="opt-icon">🥟</span>
+          <span class="opt-text">
+            <strong>Zielony Kredens</strong>
+            <a class="map-badge" href="https://www.google.com/maps/search/?api=1&query=Pierogarnia+Zielony+Kredens+Krak%C3%B3w" target="_blank" rel="noopener">📍 Map</a>
+            — ul. Świętego Krzyża 3, Old Town. Cheap and tasty Polish cuisine, mostly pierogi. Good lunch menu Monday–Friday.
+          </span>
+        </li>
+        <li>
+          <span class="opt-icon">🥪</span>
+          <span class="opt-text">
+            <strong>Mr. Broda</strong>
+            <a class="map-badge" href="https://www.google.com/maps/search/?api=1&query=Mr.Broda+Pastrami+Krak%C3%B3w" target="_blank" rel="noopener">📍 Map</a>
+            — ul. Krakowska 31, Kazimierz. Great pastrami sandwiches — they cure their own. Closed Mondays.
+          </span>
+        </li>
+        <li>
+          <span class="opt-icon">⭐</span>
+          <span class="opt-text">
+            <strong>Kropka</strong>
+            <a class="map-badge" href="https://guide.michelin.com/en/lesser-poland/krakow/restaurant/kropka" target="_blank" rel="noopener">🌐 Michelin Guide</a>
+            — ul. Józefa Dietla 31. Michelin Guide modern cuisine, small plates to share. The nice one.
+            <span class="cost">~£40pp</span>
+          </span>
+        </li>
+        <li>
+          <span class="opt-icon">🫓</span>
+          <span class="opt-text">
+            <strong>Zapiekanki, Plac Nowy</strong>
+            <a class="map-badge" href="https://www.google.com/maps/search/?api=1&query=Okr%C4%85glak+Plac+Nowy+Krak%C3%B3w" target="_blank" rel="noopener">📍 Map</a>
+            — Kazimierz. Traditional Polish fast food. A bit of a tourist trap, but cheap and part of the experience.
+          </span>
+        </li>
+        <li>
+          <span class="opt-icon">🌭</span>
+          <span class="opt-text">
+            <strong>Sausages from the blue "Nysa"</strong>
+            <a class="map-badge" href="https://www.google.com/maps/search/?api=1&query=Kie%C5%82baski+z+Niebieskiej+Nyski+Krak%C3%B3w" target="_blank" rel="noopener">📍 Map</a>
+            — ul. Grzegórzecka 3. Sausages grilled over a fire out the back of an old blue van. Ideal between pubs. Open 7pm–3am, closed Sundays.
+          </span>
+        </li>
+      </ul>
+    </div>
+
+    <div class="fd-subsection">
+      <div class="fd-subheading">🍺 Old Pubs</div>
+      <ul class="event-options">
+        <li>
+          <span class="opt-icon">🎹</span>
+          <span class="opt-text">
+            <strong>Harris Piano Jazz Bar</strong>
+            <a class="map-badge" href="https://harris.krakow.pl/en/" target="_blank" rel="noopener">🌐 Website</a>
+            — Rynek Główny 28. Underground jazz cellar right on the main square. Live music every night.
+          </span>
+        </li>
+        <li>
+          <span class="opt-icon">🕯️</span>
+          <span class="opt-text">
+            <strong>Alchemia</strong>
+            <a class="map-badge" href="https://alchemia.com.pl" target="_blank" rel="noopener">🌐 Website</a>
+            — ul. Estery 5, Kazimierz. Candlelit cellar bar and the iconic Kazimierz spot.
+          </span>
+        </li>
+        <li>
+          <span class="opt-icon">🪴</span>
+          <span class="opt-text">
+            <strong>Eszeweria</strong>
+            <a class="map-badge" href="https://eszeweria-krakow.pl/" target="_blank" rel="noopener">🌐 Website</a>
+            — ul. Józefa 9, Kazimierz. Bohemian, mismatched furniture, back garden. Open until 2am.
+          </span>
+        </li>
+      </ul>
+    </div>
+
+    <div class="fd-subsection">
+      <div class="fd-subheading">🎭 Culture</div>
+      <ul class="event-options">
+        <li>
+          <span class="opt-icon">🖼️</span>
+          <span class="opt-text">
+            <strong>Muzeum Czartoryskich</strong>
+            <a class="map-badge" href="https://mnk.pl/branch/the-princes-czartoryski-museum" target="_blank" rel="noopener">🌐 Website</a>
+            — ul. Pijarska 15, Old Town. Really nice museum, and home to Leonardo da Vinci's <em>Lady with an Ermine</em>. Tue–Sun 10:00–18:00.
+            <span class="cost">~65 PLN / £13pp</span>
+          </span>
+        </li>
+        <li>
+          <span class="opt-icon">🕴️</span>
+          <span class="opt-text">
+            <strong>Polonia Wax Museum</strong>
+            <a class="map-badge" href="https://www.poloniawaxmuseum.com/" target="_blank" rel="noopener">🌐 Website</a>
+            — ul. Floriańska 32. Famous for being bad. Roasted by Clarkson on <em>The Grand Tour</em>, which is exactly why it's worth it.
+          </span>
+        </li>
+      </ul>
+    </div>
+
+    <div class="fd-subsection">
+      <div class="fd-subheading">🥾 If You Fancy a Wander</div>
+      <ul class="event-options">
+        <li>
+          <span class="opt-icon">🏞️</span>
+          <span class="opt-text">
+            <strong>Zakrzówek</strong>
+            <a class="map-badge" href="https://www.google.com/maps/search/?api=1&query=Zakrz%C3%B3wek+Krak%C3%B3w" target="_blank" rel="noopener">📍 Map</a>
+            — Old limestone quarry flooded with turquoise water, ringed by cliffs. 20 min taxi southwest. Genuinely pretty.
+          </span>
+        </li>
+        <li>
+          <span class="opt-icon">⛰️</span>
+          <span class="opt-text">
+            <strong>Kopiec Krakusa</strong>
+            <a class="map-badge" href="https://www.google.com/maps/search/?api=1&query=Kopiec+Krakusa+Krak%C3%B3w" target="_blank" rel="noopener">📍 Map</a>
+            — Ancient mound on Lasota Hill, Podgórze. 3km south. Short climb, best view over the city. Free.
+          </span>
+        </li>
+      </ul>
+    </div>
+
   </section>
 
 
@@ -1443,12 +1398,11 @@
     setInterval(tick, 1000);
   })();
 
-  // ── Interactive map (CartoDB light) ──
+  // ── Interactive map (OpenStreetMap) ──
   var map = L.map('map', { zoomControl: true }).setView([50.058, 19.936], 14);
 
-  L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
-    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/">CARTO</a>',
-    subdomains: 'abcd',
+  L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
     maxZoom: 19
   }).addTo(map);
 
@@ -1461,9 +1415,9 @@
 
   var homeIcon     = makeIcon('#c8102e', '🏠');
   var exploreIcon  = makeIcon('#1a5c9f', '📍');
+  var foodIcon     = makeIcon('#be185d', '🍴');
   var drinksIcon   = makeIcon('#d97706', '🍺');
-  var activityIcon = makeIcon('#6d28d9', '🎯');
-  var nightIcon    = makeIcon('#065f46', '🎉');
+  var activityIcon = makeIcon('#6d28d9', '🏃');
   var cultureIcon  = makeIcon('#1e3a5f', '🎭');
   var tramIcon     = makeIcon('#0891b2', '🚋');
 
@@ -1478,63 +1432,55 @@
 
     // Explore
     { lat: 50.0617, lng: 19.9372, icon: exploreIcon, category: 'explore',
-      name: 'Rynek Główny', note: 'Main Market Square — hub of Old Town' },
+      name: 'Rynek Główny', note: 'Main Market Square — hub of Old Town, 2 min walk' },
     { lat: 50.0541, lng: 19.9352, icon: exploreIcon, category: 'explore',
       name: 'Wawel Castle', note: 'Royal castle and cathedral, 10 min walk south' },
     { lat: 50.0665, lng: 19.9389, icon: exploreIcon, category: 'explore',
       name: 'Florian Gate & Barbican', note: 'Medieval fortifications, north end of Old Town' },
-    { lat: 49.9832, lng: 20.0549, icon: exploreIcon, category: 'explore',
-      name: 'Wieliczka Salt Mine', note: '30 min by taxi — UNESCO site, underground world carved from salt' },
-    { lat: 50.0696, lng: 20.0431, icon: exploreIcon, category: 'explore',
-      name: 'Nowa Huta', note: '30 min by tram — intact Soviet-era planned city' },
+    { lat: 50.0347, lng: 19.9066, icon: exploreIcon, category: 'explore',
+      name: 'Zakrzówek', note: 'Flooded limestone quarry ringed by cliffs — 20 min taxi southwest' },
+    { lat: 50.0377, lng: 19.9569, icon: exploreIcon, category: 'explore',
+      name: 'Kopiec Krakusa', note: 'Ancient mound on Lasota Hill, Podgórze — best view over the city' },
 
-    // Drinks & Food
-    { lat: 50.0612, lng: 19.9384, icon: drinksIcon, category: 'drinks',
-      name: 'ul. Floriańska', note: 'Main bar street through Old Town' },
-    { lat: 50.0608, lng: 19.9348, icon: drinksIcon, category: 'drinks',
-      name: 'Pijalnia Wódki i Piwa', note: 'ul. Szewska 7 — shots from 80p. Don\'t miss it.' },
-    { lat: 50.0608, lng: 19.9350, icon: drinksIcon, category: 'drinks',
-      name: 'Vodka Tasting (Old Town)', note: 'Guided Polish vodka tasting — 5–6 varieties with commentary' },
+    // Food
+    { lat: 50.0627, lng: 19.9410, icon: foodIcon, category: 'food',
+      name: 'Moo Moo Steak House', note: 'ul. Świętego Krzyża 15 — Wednesday dinner. 6 min walk from Draggo.' },
+    { lat: 50.0624, lng: 19.9405, icon: foodIcon, category: 'food',
+      name: 'Zielony Kredens', note: 'ul. Świętego Krzyża 3 — cheap, tasty pierogi. Lunch menu Mon–Fri.' },
+    { lat: 50.0495, lng: 19.9397, icon: foodIcon, category: 'food',
+      name: 'Mr. Broda', note: 'ul. Krakowska 31, Kazimierz — pastrami sandwiches, cured in house. Closed Mondays.' },
+    { lat: 50.0522, lng: 19.9432, icon: foodIcon, category: 'food',
+      name: 'Kropka', note: 'ul. Józefa Dietla 31 — Michelin Guide small plates. ~£40pp.' },
+    { lat: 50.0514, lng: 19.9446, icon: foodIcon, category: 'food',
+      name: 'Zapiekanki, Plac Nowy', note: 'Kazimierz — traditional Polish fast food. Touristy but cheap.' },
+    { lat: 50.0556, lng: 19.9527, icon: foodIcon, category: 'food',
+      name: 'Sausages from the blue "Nysa"', note: 'ul. Grzegórzecka 3 — grilled over fire from an old van. 7pm–3am, closed Sundays.' },
+
+    // Drinks
+    { lat: 50.0618, lng: 19.9358, icon: drinksIcon, category: 'drinks',
+      name: 'Harris Piano Jazz Bar', note: 'Rynek Główny 28 — underground jazz cellar, live music nightly' },
     { lat: 50.0512, lng: 19.9448, icon: drinksIcon, category: 'drinks',
       name: 'Alchemia', note: 'ul. Estery 5, Kazimierz — candlelit cellar bar' },
-    { lat: 50.0499, lng: 19.9440, icon: drinksIcon, category: 'drinks',
-      name: 'Propaganda', note: 'ul. Miodowa 20, Kazimierz — cheap and reliable' },
-    { lat: 50.0510, lng: 19.9450, icon: drinksIcon, category: 'drinks',
-      name: 'Starka', note: 'Kazimierz — classic Polish sit-down dinner, Saturday night start' },
-    { lat: 50.0518, lng: 19.9452, icon: drinksIcon, category: 'drinks',
-      name: 'Mleczarnia', note: 'Kazimierz — cosy bar, low music, good beer' },
-    { lat: 50.0613, lng: 19.9376, icon: drinksIcon, category: 'drinks',
-      name: 'Bar Mleczny', note: 'Old Town — canteen-style Polish food, cheap and filling' },
+    { lat: 50.0497, lng: 19.9451, icon: drinksIcon, category: 'drinks',
+      name: 'Eszeweria', note: 'ul. Józefa 9, Kazimierz — bohemian, back garden, open till 2am' },
 
     // Activities
-    { lat: 50.0617, lng: 19.9360, icon: activityIcon, category: 'activities',
-      name: 'Krakow Underground Museum', note: 'Beneath Rynek Główny — medieval excavations' },
-    { lat: 50.0720, lng: 19.9170, icon: activityIcon, category: 'activities',
-      name: 'Strzelnica Łobzów (Shooting)', note: '~1.5km northwest of Old Town — our pick for Thursday' },
-    { lat: 50.0750, lng: 19.8900, icon: activityIcon, category: 'activities',
-      name: 'Combat Zone Kraków (Shooting)', note: '~4km from Old Town — more weapon variety, transport often included' },
-    { lat: 50.0380, lng: 19.9580, icon: activityIcon, category: 'activities',
-      name: 'Go Karting', note: '~5km south — indoor karting circuit, 15 min taxi' },
-    { lat: 50.0505, lng: 19.9445, icon: activityIcon, category: 'activities',
-      name: 'Female Oil Wrestling (Kazimierz)', note: 'Private venue in Kazimierz — book via Stag Krakow or The Stag Company' },
+    { lat: 50.0778, lng: 19.9086, icon: activityIcon, category: 'activities',
+      name: 'parkrun — Młynówka Królewska', note: 'Saturday 9am. Free 5km. Start: ul. Zygmunta Starego / Filtrowa.' },
 
     // Culture
-    { lat: 50.0476, lng: 19.9456, icon: cultureIcon, category: 'culture',
-      name: 'Schindler\'s Factory', note: 'ul. Lipowa 4, Podgórze — 20 min walk across the river' },
-
-    // Nightlife
-    { lat: 50.0607, lng: 19.9360, icon: nightIcon, category: 'nightlife',
-      name: 'Shine Club', note: 'Old Town — good for later when you want it louder' },
-    { lat: 50.0580, lng: 19.9340, icon: nightIcon, category: 'nightlife',
-      name: 'Prozak 2.0', note: 'Plac Dominikański 6 — underground techno, right in Old Town' },
+    { lat: 50.0647, lng: 19.9399, icon: cultureIcon, category: 'culture',
+      name: 'Muzeum Czartoryskich', note: 'ul. Pijarska 15 — home of da Vinci\'s Lady with an Ermine. Tue–Sun 10:00–18:00.' },
+    { lat: 50.0640, lng: 19.9397, icon: cultureIcon, category: 'culture',
+      name: 'Polonia Wax Museum', note: 'ul. Floriańska 32 — famously bad. Roasted by Clarkson on The Grand Tour.' },
 
     // Tram stops
     { lat: 50.0655, lng: 19.9340, icon: tramIcon, category: 'tram',
-      name: 'Tram: Teatr Słowackiego', note: '~500m north of Draggo. Multiple lines toward Kraków Główny (main station & airport train).' },
+      name: 'Tram: Teatr Słowackiego', note: '~500m north of Draggo. Multiple lines toward Kraków Główny.' },
     { lat: 50.0533, lng: 19.9380, icon: tramIcon, category: 'tram',
-      name: 'Tram: Wawel', note: '~700m south of Draggo. Lines toward Podgórze — useful for Schindler\'s Factory area.' },
+      name: 'Tram: Wawel', note: '~700m south of Draggo. Lines toward Podgórze.' },
     { lat: 50.0605, lng: 19.9245, icon: tramIcon, category: 'tram',
-      name: 'Tram: Teatr Bagatela', note: '~400m west of Draggo on ul. Karmelicka. Useful for Kazimierz and western Kraków.' }
+      name: 'Tram: Teatr Bagatela', note: '~400m west of Draggo on ul. Karmelicka. Useful for Kazimierz.' }
   ];
 
   var markers = [];
